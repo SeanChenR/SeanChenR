@@ -1,4 +1,9 @@
-## Hi there 👋
+## Hi, I'm Shaun-En Chen (Sean)
+
+<h2>⭐️ My Github Stats:</h2>
+<p>
+  <img  alt="GitHub Stats" src="https://github-readme-stats.vercel.app/api?username=SeanChenR&show_icons=true&theme=dracula&hide=issues&hide_border=true" />
+</p>
 
 <!--
 **SeanChenR/SeanChenR** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.

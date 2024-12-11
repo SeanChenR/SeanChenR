@@ -33,3 +33,7 @@ I graduated from the School of Big Data Management at Soochow University. I am c
 <h2>
   📫 How to reach me
 </h2>
+
+<a href="https://www.linkedin.com/in/shaun-en-sean-chen-sean0111/">
+  <img height="32" width="32" src="https://cdn.simpleicons.org/linkedin/0A66C2" />
+</a>

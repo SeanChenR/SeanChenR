@@ -57,3 +57,11 @@ I graduated from the School of Big Data Management at Soochow University. I am c
 | [![My Skills](https://skillicons.dev/icons?i=vscode,azure,py,pytorch,sklearn,opencv,django,flask,selenium,docker,regex,git,github,gitlab,linux,ubuntu,vim,md,mysql,postman,obsidian&perline=7)](https://skillicons.dev) | [![My Skills](https://skillicons.dev/icons?i=fastapi,firebase,mongodb,aws,gcp,figma,bootstrap,html,css,js,ts,react,vue,nodejs,go,kubernetes,elasticsearch&perline=7)](https://skillicons.dev) |
 
 </div>
+
+<h2>
+  🎶 Quotes
+</h2>
+
+<div align="center">
+  <img src="https://quotes-github-readme.vercel.app/api?quote=Challenges%20are%20what%20make%20life%20interesting%20and%20overcoming%20them%20is%20what%20makes%20life%20meaningful.&author=Joshua%20J.%20Marine.&border=true&theme=dracula">
+</div>

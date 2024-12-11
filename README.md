@@ -12,6 +12,8 @@ I graduated from the School of Big Data Management at Soochow University. I am c
   💪 Strength
 </h2>
 
+<img src="https://raw.githubusercontent.com/SeanChenR/img_gif/main/myimage/1733941655000b7xmv7.gif" align="right">
+
 - Machine Learning / Deep Learning
 - Generative AI - LLM
 - Data Analysis / Visualization / Mining

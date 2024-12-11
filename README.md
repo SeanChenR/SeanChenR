@@ -1,21 +1,35 @@
-## Hi, I'm Shaun-En Chen (Sean)
+<div align="center">
+  <img src="https://raw.githubusercontent.com/SeanChenR/img_gif/main/myimage/1733936588000sgfa8y.gif" width="800px">
+</div>
 
-<h2>⭐️ My Github Stats:</h2>
+<h2>
+  👋 Hi, I'm Sean Chen
+</h2>
+
+I graduated from the School of Big Data Management at Soochow University. I am currently a data scientist, aiming to become a full-stack software engineer !
+
+<h2>
+  💪 Strength
+</h2>
+
+- Machine Learning / Deep Learning
+- Generative AI - LLM
+- Data Analysis / Visualization / Mining
+- Cloud Computing - Azure
+- Backend Engineering - Python
+
+<h2>
+  🧐 Work Experiences
+</h2>
+
+- Data Scientist Intern @ [Taiwan Economic Journal](https://www.tejwin.com/en/)
+
+<h2>⭐️ My Github Stats</h2>
 <p>
-  <img  alt="GitHub Stats" src="https://github-readme-stats.vercel.app/api?username=SeanChenR&show_icons=true&theme=dracula&hide=issues&hide_border=true" />
+  <img align="center" src="https://github-readme-stats.vercel.app/api?username=SeanChenR&show_icons=true&line_height=27&count_private=true&theme=radical" alt="Sean's GitHub Stats" />
+  <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=SeanChenR&hide=java,html,tex&theme=radical&langs_count=3" />
 </p>
 
-<!--
-**SeanChenR/SeanChenR** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+<h2>
+  📫 How to reach me
+</h2>

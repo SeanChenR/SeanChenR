@@ -17,7 +17,7 @@ I graduated from the School of Big Data Management at Soochow University. I am c
 - Machine Learning / Deep Learning
 - Generative AI - LLM
 - Data Analysis / Visualization / Mining
-- Cloud Computing - Azure
+- Cloud Computing - Azure / Google Cloud
 - Backend Engineering - Python
 
 <h2>
@@ -25,6 +25,7 @@ I graduated from the School of Big Data Management at Soochow University. I am c
 </h2>
 
 - Data Scientist Intern @ [Taiwan Economic Journal](https://www.tejwin.com/en/)
+- Google Cloud AI Developer @ [Master Concept](https://masterconcept.ai/?_gl=1*14oxrdn*_ga*ODE4ODU1NDg5LjE3NDI5ODM3OTY.*_ga_S5HF69XVN2*MTc0Mjk4Mzc5NS4xLjAuMTc0Mjk4Mzc5NS42MC4wLjA.)
 
 <h2>⭐️ My Github Stats</h2>
 <div align="center">
@@ -54,7 +55,7 @@ I graduated from the School of Big Data Management at Soochow University. I am c
   
 | I have ever learned                                                                                              | I plan to learn                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| [![My Skills](https://skillicons.dev/icons?i=vscode,azure,py,pytorch,sklearn,opencv,django,flask,selenium,docker,regex,git,github,gitlab,linux,ubuntu,vim,md,mysql,postman,obsidian&perline=7)](https://skillicons.dev) | [![My Skills](https://skillicons.dev/icons?i=fastapi,firebase,mongodb,aws,gcp,figma,bootstrap,html,css,js,ts,react,vue,nodejs,go,kubernetes,elasticsearch&perline=7)](https://skillicons.dev) |
+| [![My Skills](https://skillicons.dev/icons?i=gcp,azure,py,pytorch,sklearn,opencv,django,flask,fastapi,selenium,docker,regex,git,linux,ubuntu,vim,md,mysql,postman,html,css,js,ts,react,obsidian&perline=7)](https://skillicons.dev) | [![My Skills](https://skillicons.dev/icons?i=firebase,mongodb,aws,figma,bootstrap,vue,nodejs,go,kubernetes,elasticsearch&perline=7)](https://skillicons.dev) |
 
 </div>
 

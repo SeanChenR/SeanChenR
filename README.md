@@ -42,7 +42,7 @@ I graduated from the School of Big Data Management at Soochow University. I am c
 
 | Icon                                                                              | Link                                                     |
 | --------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| <img height="32" width="32" src="https://cdn.simpleicons.org/linkedin/0A66C2" />  | https://www.linkedin.com/in/shaun-en-sean-chen-sean0111/ |
+| <img height="32" width="32" src="https://skillicons.dev/icons?i=linkedin" />  | https://www.linkedin.com/in/shaun-en-sean-chen-sean0111/ |
 | <img height="32" width="32" src="https://cdn.simpleicons.org/instagram/FF0069" /> | https://www.instagram.com/sean._.0111/                   |
 | <img height="32" width="32" src="https://cdn.simpleicons.org/gmail/EA4335" />     | angus.chen9001@gmail.com                                 |
 

@@ -18,8 +18,8 @@ I graduated from the School of Big Data Management at Soochow University. I am c
 - Generative AI - LLM (Gemini)
 - Data Analysis / Visualization / Mining
 - Cloud Computing - Azure / Google Cloud
-- Backend - Python
-- Frontend - React
+- Backend - FastAPI / Django / Flask / Next.js
+- Frontend - React.js
 
 <h2>
   🧐 Work Experiences

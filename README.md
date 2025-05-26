@@ -6,7 +6,7 @@
   👋 Hi, I'm Sean Chen
 </h2>
 
-I graduated from the School of Big Data Management at Soochow University. I am currently a data scientist, aiming to become a full-stack software engineer !
+I graduated from the School of Big Data Management at Soochow University. I am currently a AI Engineer, aiming to become a full-stack software engineer ! Here's My Personal Portfolio -> [Sean's Portfolio](https://sean-portfolio-ten.vercel.app/)
 
 <h2>
   💪 Strength
@@ -43,7 +43,6 @@ I graduated from the School of Big Data Management at Soochow University. I am c
 | Icon                                                                              | Link                                                     |
 | --------------------------------------------------------------------------------- | -------------------------------------------------------- |
 | <img height="32" width="32" src="https://skillicons.dev/icons?i=linkedin" />  | https://www.linkedin.com/in/shaun-en-sean-chen-sean0111/ |
-| <img height="32" width="32" src="https://cdn.simpleicons.org/instagram/FF0069" /> | https://www.instagram.com/sean._.0111/                   |
 | <img height="32" width="32" src="https://cdn.simpleicons.org/gmail/EA4335" />     | angus.chen9001@gmail.com                                 |
 
 </div>
@@ -56,7 +55,7 @@ I graduated from the School of Big Data Management at Soochow University. I am c
   
 | My Tools                                                                                                                                                                                                                  |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [![My Skills](https://skillicons.dev/icons?i=gcp,azure,py,pytorch,sklearn,opencv,django,flask,fastapi,selenium,docker,regex,git,linux,ubuntu,vim,md,mysql,postman,html,css,js,ts,react&perline=12)](https://skillicons.dev) |
+| [![My Skills](https://skillicons.dev/icons?i=gcp,azure,py,pytorch,sklearn,opencv,django,flask,fastapi,selenium,docker,kubernetes,git,linux,ubuntu,vim,md,mysql,postman,html,css,js,ts,react&perline=12)](https://skillicons.dev) |
 
 
 </div>

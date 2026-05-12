@@ -28,8 +28,7 @@ I graduated from the School of Big Data Management at Soochow University. I am c
 
 <h2>⭐️ My Github Stats</h2>
 <div align="center">
-  <img align="center" src="https://github-readme-stats.vercel.app/api?username=SeanChenR&show_icons=true&line_height=27&count_private=true&theme=radical" alt="Sean's GitHub Stats" />
-  <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=SeanChenR&hide=java,html,tex&theme=radical&langs_count=3" />
+  <a href="https://bit.ly/gh-readme-profile"><img src="https://gh-readme-profile.vercel.app/api?username=SeanChenR&locale=en&hide=stars%2Cforks&show=issues_closed" alt="GitHub Readme Profile"/></a>
 </div>
 
 <h2>

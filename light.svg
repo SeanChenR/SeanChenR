@@ -1,0 +1,576 @@
+<svg viewBox="0 0 1180 610" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" font-family="'JetBrains Mono','Fira Code','SF Mono',ui-monospace,Menlo,Consolas,monospace">
+  <title>Sean Chen — Software Engineer @ CTBC Bank (light)</title>
+  <style>
+    :root{
+      --bg:#FFFFFF; --panel:#F8FAFC; --panelHead:rgba(15,23,42,0.03);
+      --border:rgba(15,23,42,0.08);
+      --text:#0F172A; --muted:#475569;
+      --a1:#2563EB; --a2:#06B6D4; --a3:#10B981;
+      --pillFill:rgba(15,23,42,0.02);
+      --glowO:0.08; --noiseO:0.028; --scanO:0.04; --scanC:#0F172A;
+      --reflC:#0F172A; --reflO:0.03; --hiC:#FFFFFF; --hiO:0.5;
+      --slC:#0F172A; --slO:0.06;
+      --panelShadow:drop-shadow(0 14px 34px rgba(15,23,42,0.10));
+    }
+    .bg{fill:var(--bg)}
+    .panel{fill:var(--panel);stroke:var(--border);stroke-width:1;filter:var(--panelShadow)}
+    .head{fill:var(--panelHead)}
+    .t{fill:var(--text)} .m{fill:var(--muted)}
+    .a1{fill:var(--a1)} .a2{fill:var(--a2)} .a3{fill:var(--a3)}
+    .bd{stroke:var(--border)}
+    .noise{opacity:var(--noiseO)}
+    .glowC{opacity:var(--glowO)}
+    .s1{stop-color:var(--a1)} .s2{stop-color:var(--a2)} .s3{stop-color:var(--a3)}
+    .scanStop{stop-color:var(--scanC)}
+    .reflStop{stop-color:var(--reflC)}
+    .hiStop{stop-color:var(--hiC)}
+    .slBar{fill:var(--slC);opacity:var(--slO)}
+    .pillFill{fill:var(--pillFill)}
+    .pill{transform-box:fill-box;transform-origin:center;transition:transform .25s ease}
+    .pill:hover{transform:scale(1.06)}
+    .pill:hover .pillR{stroke-opacity:1}
+  </style>
+
+  <defs>
+    <clipPath id="canvas"><rect x="0" y="0" width="1180" height="610" rx="24"/></clipPath>
+
+    <!-- accent gradient (slowly drifting) -->
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" class="s1"/><stop offset=".5" class="s2"/><stop offset="1" class="s3"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="-0.25 0;0.25 0;-0.25 0" dur="7s" repeatCount="indefinite"/>
+    </linearGradient>
+
+    <!-- ASCII gradient with colour-shifting stops -->
+    <linearGradient id="asciiGrad" gradientUnits="userSpaceOnUse" x1="48" y1="130" x2="360" y2="380">
+      <stop offset="0" stop-color="#2563EB">
+        <animate attributeName="stop-color" values="#2563EB;#06B6D4;#10B981;#2563EB" dur="9s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset=".55" stop-color="#06B6D4">
+        <animate attributeName="stop-color" values="#06B6D4;#10B981;#2563EB;#06B6D4" dur="9s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="1" stop-color="#10B981">
+        <animate attributeName="stop-color" values="#10B981;#2563EB;#06B6D4;#10B981" dur="9s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <!-- border shimmer -->
+    <linearGradient id="shimmer" gradientUnits="userSpaceOnUse" x1="-1180" y1="0" x2="0" y2="0">
+      <stop offset="0" class="s1" stop-opacity="0"/>
+      <stop offset=".4" class="s2" stop-opacity=".9"/>
+      <stop offset=".6" class="s3" stop-opacity=".9"/>
+      <stop offset="1" class="s1" stop-opacity="0"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="0 0;2360 0" dur="6s" repeatCount="indefinite"/>
+    </linearGradient>
+
+    <!-- background glows -->
+    <radialGradient id="gB" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#3B82F6" stop-opacity="1"/><stop offset="1" stop-color="#3B82F6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gP" cx=".5" cy=".5" r=".5">
+      <stop offset="0" class="s1" stop-opacity="1"/><stop offset="1" class="s1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gE" cx=".5" cy=".5" r=".5">
+      <stop offset="0" class="s3" stop-opacity="1"/><stop offset="1" class="s3" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- global scanline sweep -->
+    <linearGradient id="scanG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" class="scanStop" stop-opacity="0"/>
+      <stop offset=".5" class="scanStop" stop-opacity=".06"/>
+      <stop offset="1" class="scanStop" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- glass reflection -->
+    <linearGradient id="reflG" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" class="reflStop" stop-opacity="0"/>
+      <stop offset=".5" class="reflStop" stop-opacity=".07"/>
+      <stop offset="1" class="reflStop" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- panel top highlight -->
+    <linearGradient id="topHi" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" class="hiStop" stop-opacity=".08"/>
+      <stop offset="1" class="hiStop" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- CRT scanline texture -->
+    <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="1.6" class="slBar"/>
+    </pattern>
+
+    <filter id="noiseF">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="asciiGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="0.9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- typing clips : left boot line -->
+    <clipPath id="cBoot"><rect x="48" y="88" width="0" height="18">
+      <animate attributeName="width" calcMode="discrete" values="0;29;58;86;115;144;173;202" keyTimes="0;.14;.29;.43;.57;.71;.86;1" begin="0.4s" dur="1.2s" fill="freeze"/>
+    </rect></clipPath>
+
+    <!-- typing clips : role phrases (12s master loop) -->
+    <clipPath id="cP1"><rect x="530" y="166" height="22" width="0">
+      <animate attributeName="width" calcMode="discrete" values="0;15;31;46;61;76;92;107;122;138;153;0;0" keyTimes="0;.015;.03;.045;.06;.075;.09;.105;.12;.135;.15;.32;1" begin="1.2s" dur="12s" repeatCount="indefinite"/>
+    </rect></clipPath>
+    <clipPath id="cP2"><rect x="530" y="166" height="22" width="0">
+      <animate attributeName="width" calcMode="discrete" values="0;17;34;51;68;86;103;120;137;154;171;0;0" keyTimes="0;.015;.03;.045;.06;.075;.09;.105;.12;.135;.15;.32;1" begin="5.2s" dur="12s" repeatCount="indefinite"/>
+    </rect></clipPath>
+    <clipPath id="cP3"><rect x="530" y="166" height="22" width="0">
+      <animate attributeName="width" calcMode="discrete" values="0;15;31;46;61;76;92;107;122;138;153;0;0" keyTimes="0;.015;.03;.045;.06;.075;.09;.105;.12;.135;.15;.32;1" begin="9.2s" dur="12s" repeatCount="indefinite"/>
+    </rect></clipPath>
+  </defs>
+
+  <!-- ======================= BACKGROUND ======================= -->
+  <g clip-path="url(#canvas)">
+    <rect width="1180" height="610" class="bg"/>
+
+    <circle cx="180" cy="120" r="260" fill="url(#gB)" class="glowC">
+      <animateTransform attributeName="transform" type="translate" values="0 0;60 40;0 0" dur="14s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1020" cy="140" r="240" fill="url(#gP)" class="glowC">
+      <animateTransform attributeName="transform" type="translate" values="0 0;-70 60;0 0" dur="17s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="640" cy="560" r="260" fill="url(#gE)" class="glowC">
+      <animateTransform attributeName="transform" type="translate" values="0 0;40 -60;0 0" dur="19s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- particles -->
+    <g>
+      <circle cx="120" cy="560" r="1.6" class="a2" opacity="0">
+        <animate attributeName="cy" values="580;60" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;.6;0" dur="12s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="330" cy="600" r="1.2" class="a1" opacity="0">
+        <animate attributeName="cy" values="600;40" dur="15s" begin="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;.55;0" dur="15s" begin="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="560" cy="590" r="1.4" class="a3" opacity="0">
+        <animate attributeName="cy" values="590;80" dur="13s" begin="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;.5;0" dur="13s" begin="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="760" cy="600" r="1.1" class="a2" opacity="0">
+        <animate attributeName="cy" values="600;50" dur="16s" begin="1s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;.5;0" dur="16s" begin="1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="930" cy="580" r="1.5" class="a1" opacity="0">
+        <animate attributeName="cy" values="580;70" dur="11s" begin="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;.6;0" dur="11s" begin="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="1090" cy="600" r="1.2" class="a3" opacity="0">
+        <animate attributeName="cy" values="600;90" dur="14s" begin="6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;.5;0" dur="14s" begin="6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="480" cy="570" r="1" class="a2" opacity="0">
+        <animate attributeName="cy" values="570;30" dur="18s" begin="5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;.45;0" dur="18s" begin="5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="880" cy="590" r="1.3" class="a3" opacity="0">
+        <animate attributeName="cy" values="590;60" dur="12.5s" begin="7s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;.5;0" dur="12.5s" begin="7s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- noise -->
+    <rect width="1180" height="610" filter="url(#noiseF)" class="noise"/>
+
+    <!-- global scanline sweep -->
+    <rect x="0" y="-140" width="1180" height="130" fill="url(#scanG)">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 880" dur="7s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- ======================= LEFT : ASCII PORTRAIT ======================= -->
+  <g>
+    <rect x="28" y="28" width="420" height="554" rx="20" class="panel"/>
+    <rect x="29" y="29" width="418" height="90" rx="19" fill="url(#topHi)"/>
+
+    <text x="48" y="66" font-size="11.5" class="m" xml:space="preserve">sean@portfolio: ~/ascii-portrait</text>
+    <circle cx="416" cy="62" r="3.5" class="a3">
+      <animate attributeName="opacity" values="1;.3;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- boot line : typed -->
+    <g clip-path="url(#cBoot)">
+      <text x="48" y="102" font-size="12" class="t" xml:space="preserve"><tspan class="a2">$</tspan> ./render --ascii sean_chen</text>
+    </g>
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".3s" begin="1.7s" fill="freeze"/>
+      <text x="48" y="122" font-size="12" class="m" xml:space="preserve"><tspan class="a3">[ok]</tspan> glyphs loaded · gradient linked</text>
+    </g>
+
+    <!-- floating ASCII block -->
+    <g filter="url(#asciiGlow)">
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="6s" repeatCount="indefinite"/>
+      <g fill="url(#asciiGrad)" xml:space="preserve">
+        <text x="44" y="156" font-size="14" xml:space="preserve" opacity="0">███████╗  ███████╗   █████╗   ███╗   ██╗<animate attributeName="opacity" to="1" dur=".06s" begin="1.9s" fill="freeze"/></text>
+        <text x="44" y="173" font-size="14" xml:space="preserve" opacity="0">██╔════╝  ██╔════╝  ██╔══██╗  ████╗  ██║<animate attributeName="opacity" to="1" dur=".06s" begin="2.0s" fill="freeze"/></text>
+        <text x="44" y="190" font-size="14" xml:space="preserve" opacity="0">███████╗  █████╗    ███████║  ██╔██╗ ██║<animate attributeName="opacity" to="1" dur=".06s" begin="2.1s" fill="freeze"/></text>
+        <text x="44" y="207" font-size="14" xml:space="preserve" opacity="0">╚════██║  ██╔══╝    ██╔══██║  ██║╚██╗██║<animate attributeName="opacity" to="1" dur=".06s" begin="2.2s" fill="freeze"/></text>
+        <text x="44" y="224" font-size="14" xml:space="preserve" opacity="0">███████║  ███████╗  ██║  ██║  ██║ ╚████║<animate attributeName="opacity" to="1" dur=".06s" begin="2.3s" fill="freeze"/></text>
+        <text x="44" y="241" font-size="14" xml:space="preserve" opacity="0">╚══════╝  ╚══════╝  ╚═╝  ╚═╝  ╚═╝  ╚═══╝<animate attributeName="opacity" to="1" dur=".06s" begin="2.4s" fill="freeze"/></text>
+        <text x="44" y="280" font-size="14" xml:space="preserve" opacity="0"> ██████╗  ██╗  ██╗  ███████╗  ███╗   ██╗<animate attributeName="opacity" to="1" dur=".06s" begin="2.5s" fill="freeze"/></text>
+        <text x="44" y="297" font-size="14" xml:space="preserve" opacity="0">██╔════╝  ██║  ██║  ██╔════╝  ████╗  ██║<animate attributeName="opacity" to="1" dur=".06s" begin="2.6s" fill="freeze"/></text>
+        <text x="44" y="314" font-size="14" xml:space="preserve" opacity="0">██║       ███████║  █████╗    ██╔██╗ ██║<animate attributeName="opacity" to="1" dur=".06s" begin="2.7s" fill="freeze"/></text>
+        <text x="44" y="331" font-size="14" xml:space="preserve" opacity="0">██║       ██╔══██║  ██╔══╝    ██║╚██╗██║<animate attributeName="opacity" to="1" dur=".06s" begin="2.8s" fill="freeze"/></text>
+        <text x="44" y="348" font-size="14" xml:space="preserve" opacity="0">╚██████╗  ██║  ██║  ███████╗  ██║ ╚████║<animate attributeName="opacity" to="1" dur=".06s" begin="2.9s" fill="freeze"/></text>
+        <text x="44" y="365" font-size="14" xml:space="preserve" opacity="0"> ╚═════╝  ╚═╝  ╚═╝  ╚══════╝  ╚═╝  ╚═══╝<animate attributeName="opacity" to="1" dur=".06s" begin="3.0s" fill="freeze"/></text>
+      </g>
+      <!-- CRT scanline texture over ASCII -->
+      <rect x="42" y="140" width="345" height="244" fill="url(#scanlines)" opacity=".16"/>
+      <!-- local scanline sweep -->
+      <rect x="44" y="134" width="345" height="26" fill="url(#scanG)" opacity=".8">
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 240;0 0" dur="4.5s" begin="3.2s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+
+    <!-- status lines -->
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".4s" begin="3.3s" fill="freeze"/>
+      <text x="48" y="404" font-size="12" class="m" xml:space="preserve"><tspan class="a2">$</tspan> <tspan class="t">role</tspan>   → software engineer</text>
+    </g>
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".4s" begin="3.55s" fill="freeze"/>
+      <text x="48" y="426" font-size="12" class="m" xml:space="preserve"><tspan class="a2">$</tspan> <tspan class="t">stack</tspan>  → java · spring · angular</text>
+    </g>
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".4s" begin="3.8s" fill="freeze"/>
+      <text x="48" y="448" font-size="12" class="m" xml:space="preserve"><tspan class="a2">$</tspan> <tspan class="t">status</tspan> → shipping</text>
+      <rect x="222" y="436" width="8" height="14" class="a2">
+        <animate attributeName="opacity" calcMode="discrete" values="1;0" keyTimes="0;.5" dur="1s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+  </g>
+
+  <!-- ======================= RIGHT : TERMINAL ======================= -->
+  <g>
+    <rect x="472" y="28" width="680" height="554" rx="20" class="panel"/>
+    <rect x="473" y="29" width="678" height="90" rx="19" fill="url(#topHi)"/>
+
+    <!-- header bar -->
+    <path d="M492 28 h640 a20 20 0 0 1 20 20 v18 h-680 v-18 a20 20 0 0 1 20 -20 z" class="head"/>
+    <line x1="472" y1="66" x2="1152" y2="66" class="bd" stroke-width="1"/>
+    <circle cx="498" cy="47" r="5" fill="#FF5F57"/>
+    <circle cx="516" cy="47" r="5" fill="#FEBC2E"/>
+    <circle cx="534" cy="47" r="5" fill="#28C840"/>
+    <text x="556" y="51" font-size="11.5" class="m">sean@cloud: ~/profile — zsh</text>
+
+    <!-- greeting -->
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".6s" begin=".5s" fill="freeze"/>
+      <animateTransform attributeName="transform" type="translate" from="0 8" to="0 0" dur=".6s" begin=".5s" fill="freeze"/>
+      <text x="508" y="106" font-size="15" class="m">Hi 👋 I'm</text>
+      <text x="508" y="144" font-size="33" font-weight="700" fill="url(#accent)" filter="url(#softGlow)" letter-spacing="0.5">Sean Chen</text>
+    </g>
+
+    <!-- typing roles -->
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".3s" begin="1s" fill="freeze"/>
+      <text x="508" y="183" font-size="15" class="a3">$</text>
+    </g>
+    <g opacity="0">
+      <animate attributeName="opacity" calcMode="discrete" values="1;0;0" keyTimes="0;.32;1" begin="1.2s" dur="12s" repeatCount="indefinite"/>
+      <g clip-path="url(#cP1)"><text x="532" y="183" font-size="15" class="t" xml:space="preserve">Software Engineer</text></g>
+      <rect y="168" width="8" height="17" class="a2">
+        <animate attributeName="x" calcMode="discrete" values="532;547;563;578;593;608;624;639;654;670;685;685;685" keyTimes="0;.015;.03;.045;.06;.075;.09;.105;.12;.135;.15;.32;1" begin="1.2s" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" calcMode="discrete" values="1;0" keyTimes="0;.5" dur=".9s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+    <g opacity="0">
+      <animate attributeName="opacity" calcMode="discrete" values="1;0;0" keyTimes="0;.32;1" begin="5.2s" dur="12s" repeatCount="indefinite"/>
+      <g clip-path="url(#cP2)"><text x="532" y="183" font-size="15" class="t" xml:space="preserve">Full Stack Engineer</text></g>
+      <rect y="168" width="8" height="17" class="a2">
+        <animate attributeName="x" calcMode="discrete" values="532;549;566;583;600;618;635;652;669;686;703;703;703" keyTimes="0;.015;.03;.045;.06;.075;.09;.105;.12;.135;.15;.32;1" begin="5.2s" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" calcMode="discrete" values="1;0" keyTimes="0;.5" dur=".9s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+    <g opacity="0">
+      <animate attributeName="opacity" calcMode="discrete" values="1;0;0" keyTimes="0;.32;1" begin="9.2s" dur="12s" repeatCount="indefinite"/>
+      <g clip-path="url(#cP3)"><text x="532" y="183" font-size="15" class="t" xml:space="preserve">Cloud AI Engineer</text></g>
+      <rect y="168" width="8" height="17" class="a2">
+        <animate attributeName="x" calcMode="discrete" values="532;547;563;578;593;608;624;639;654;670;685;685;685" keyTimes="0;.015;.03;.045;.06;.075;.09;.105;.12;.135;.15;.32;1" begin="9.2s" dur="12s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" calcMode="discrete" values="1;0" keyTimes="0;.5" dur=".9s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+    <line x1="508" y1="205" x2="1116" y2="205" class="bd" stroke-width="1"/>
+
+    <!-- info rows : sequential reveal -->
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".5s" begin="2s" fill="freeze"/>
+      <animateTransform attributeName="transform" type="translate" from="0 6" to="0 0" dur=".5s" begin="2s" fill="freeze"/>
+      <text x="508" y="236" font-size="13" class="m">location</text>
+      <text x="640" y="236" font-size="13.5" class="t">Taipei, Taiwan 🇹🇼</text>
+    </g>
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".5s" begin="2.35s" fill="freeze"/>
+      <animateTransform attributeName="transform" type="translate" from="0 6" to="0 0" dur=".5s" begin="2.35s" fill="freeze"/>
+      <text x="508" y="266" font-size="13" class="m">education</text>
+      <text x="640" y="266" font-size="13.5" class="t">Soochow University · Big Data Management</text>
+    </g>
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".5s" begin="2.7s" fill="freeze"/>
+      <animateTransform attributeName="transform" type="translate" from="0 6" to="0 0" dur=".5s" begin="2.7s" fill="freeze"/>
+      <text x="508" y="296" font-size="13" class="m">focus</text>
+      <text x="640" y="296" font-size="13.5" class="t">Software Engineer @ CTBC Bank</text>
+    </g>
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".5s" begin="3.05s" fill="freeze"/>
+      <animateTransform attributeName="transform" type="translate" from="0 6" to="0 0" dur=".5s" begin="3.05s" fill="freeze"/>
+      <text x="508" y="326" font-size="13" class="m">portfolio</text>
+      <text x="640" y="326" font-size="13.5" fill="url(#accent)">sean-portfolio-ten.vercel.app</text>
+    </g>
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".5s" begin="3.4s" fill="freeze"/>
+      <animateTransform attributeName="transform" type="translate" from="0 6" to="0 0" dur=".5s" begin="3.4s" fill="freeze"/>
+      <text x="508" y="356" font-size="13" class="m">email</text>
+      <text x="640" y="356" font-size="13.5" class="t">angus.chen9001@gmail.com</text>
+    </g>
+
+    <line x1="508" y1="380" x2="1116" y2="380" class="bd" stroke-width="1"/>
+
+    <!-- skills -->
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".4s" begin="3.7s" fill="freeze"/>
+      <text x="508" y="406" font-size="12.5" class="m"><tspan class="a2">$</tspan> ls ./skills</text>
+    </g>
+    <g font-size="11">
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="3.90s" fill="freeze"/>
+        <rect x="508" y="410" width="69" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="0.0s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="515" y="415" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#F4F2ED" rx="60"/><path fill="#4E7896" d="M101.634 182.619C101.634 182.619 93.9548 187.293 106.979 188.63C122.707 190.634 131.023 190.299 148.386 186.962C148.386 186.962 153.06 189.971 159.406 192.306C120.331 209.002 70.9089 191.304 101.634 182.619ZM96.6252 160.914C96.6252 160.914 88.2753 167.26 101.299 168.593C118.327 170.262 131.69 170.597 154.732 165.926C154.732 165.926 157.741 169.267 162.747 170.936C115.664 184.961 62.8975 172.269 96.6252 160.917V160.914ZM188.795 198.984C188.795 198.984 194.471 203.658 182.449 207.334C160.073 214.012 88.6104 216.019 68.5735 207.334C61.564 204.325 74.9197 199.982 79.2587 199.319C83.6012 198.317 85.9366 198.317 85.9366 198.317C78.2569 192.973 34.8424 209.337 63.8959 214.046C143.709 227.073 209.499 208.37 188.792 199.018L188.795 198.984ZM105.307 138.203C105.307 138.203 68.9052 146.888 92.2793 149.89C102.298 151.223 122 150.892 140.368 149.555C155.396 148.221 170.458 145.548 170.458 145.548C170.458 145.548 165.113 147.886 161.441 150.222C124.342 159.915 53.2107 155.573 73.5827 145.554C90.9526 137.204 105.307 138.203 105.307 138.203V138.203ZM170.423 174.604C207.83 155.234 190.46 136.534 178.438 138.873C175.429 139.54 174.096 140.207 174.096 140.207C174.096 140.207 175.097 138.203 177.436 137.54C201.145 129.19 219.849 162.586 169.757 175.61C169.757 175.61 170.092 175.275 170.423 174.608V174.604ZM108.979 227.364C145.046 229.703 200.147 226.03 201.484 208.995C201.484 208.995 198.817 215.673 171.764 220.683C141.042 226.359 102.968 225.692 80.5957 222.016C80.5957 222.016 85.2698 226.023 108.982 227.36L108.979 227.364Z"/><path fill="#F58219" d="M147.685 28C147.685 28 168.389 49.0388 127.983 80.7594C95.5891 106.472 120.632 121.168 127.983 137.861C108.948 120.833 95.2609 105.802 104.606 91.7762C118.331 71.0828 156.062 61.0644 147.685 28ZM137 123.842C146.683 134.862 134.333 144.881 134.333 144.881C134.333 144.881 159.044 132.195 147.692 116.494C137.338 101.466 129.324 94.1184 172.738 69.0689C172.738 69.0689 104.277 86.0968 137.007 123.835L137 123.842Z"/></svg>
+        <text x="539" y="428.5" class="t">Java</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="3.95s" fill="freeze"/>
+        <rect x="585" y="410" width="83" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="0.2s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="592" y="415" width="18" height="18" viewBox="0 0 256 256">
+<rect width="256" height="256" rx="60" fill="#F4F2ED"/>
+<path d="M209.545 171.821C184.93 204.618 132.347 193.547 98.6353 195.139C98.6353 195.139 92.6673 195.471 86.6563 196.461C86.6563 196.461 88.9292 195.491 91.8279 194.492C115.506 186.304 126.695 184.659 141.082 177.269C168.114 163.421 195.018 133.259 200.492 101.925C190.202 132.061 158.909 157.998 130.415 168.53C110.911 175.727 75.6419 182.731 75.6368 182.734C75.6533 182.759 74.2312 181.996 74.2113 181.979C50.2253 170.309 49.5332 118.359 93.0965 101.613C112.197 94.2661 130.466 98.3015 151.114 93.387C173.136 88.151 198.642 71.644 209.009 50.063C220.631 84.5351 234.592 138.467 209.545 171.821V171.821ZM209.973 39.3809C207.043 46.343 203.466 52.6167 199.344 58.2281C181.197 39.6038 155.868 27.9999 127.871 27.9999C72.7989 27.9999 28 72.8039 28 127.866C28 156.731 40.3209 182.764 59.9644 201.012L62.1514 202.949C58.4993 199.971 57.9377 194.608 60.8977 190.952C63.8759 187.295 69.2444 186.728 72.8983 189.69C76.562 192.658 77.1202 198.035 74.1538 201.697C71.1984 205.361 65.8202 205.914 62.1614 202.958L63.6497 204.276C81.0254 218.906 103.424 227.743 127.871 227.743C180.511 227.743 223.736 186.778 227.436 135.073C230.176 109.757 222.699 77.6106 209.973 39.3809Z" fill="#5FB832"/>
+</svg>
+        <text x="616" y="428.5" class="t">Spring</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.00s" fill="freeze"/>
+        <rect x="676" y="410" width="89" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="0.4s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="683" y="415" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#F4F2ED" rx="60"/><path fill="#E23237" d="M34.25 61.125L127.325 28L222.85 60.6125L207.412 183.7L127.325 228L48.5375 184.275L34.25 61.125Z"/><path fill="#B52E31" d="M222.85 60.6125L127.325 28V228L207.412 183.7L222.85 60.6125Z"/><path fill="#fff" d="M127.469 51.375L69.4688 180.375L91.1125 179.937L102.8 150.788H154.675L167.375 180.163L188.012 180.6L127.469 51.375ZM127.612 92.7875L147.237 133.769H110.5L127.669 92.7875H127.612Z"/></svg>
+        <text x="707" y="428.5" class="t">Angular</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.05s" fill="freeze"/>
+        <rect x="773" y="410" width="76" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="0.6s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="780" y="415" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#F4F2ED" rx="60"/><path fill="#00D8FF" d="M128.001 146.951C138.305 146.951 146.657 138.598 146.657 128.295C146.657 117.992 138.305 109.639 128.001 109.639C117.698 109.639 109.345 117.992 109.345 128.295C109.345 138.598 117.698 146.951 128.001 146.951Z"/><path fill-rule="evenodd" stroke="#00D8FF" stroke-width="8.911" d="M128.002 90.3633C153.05 90.3633 176.319 93.9575 193.864 99.9976C215.003 107.275 228 118.306 228 128.295C228 138.704 214.226 150.423 191.525 157.944C174.363 163.63 151.779 166.598 128.002 166.598C103.624 166.598 80.5389 163.812 63.1834 157.881C41.2255 150.376 28 138.506 28 128.295C28 118.387 40.4096 107.441 61.2515 100.175C78.8617 94.0353 102.705 90.3633 127.998 90.3633H128.002Z" clip-rule="evenodd"/><path fill-rule="evenodd" stroke="#00D8FF" stroke-width="8.911" d="M94.9811 109.438C107.495 87.7402 122.232 69.3783 136.23 57.1971C153.094 42.5206 169.144 36.7728 177.796 41.7623C186.813 46.9623 190.084 64.7496 185.259 88.1712C181.614 105.879 172.9 126.925 161.021 147.523C148.842 168.641 134.897 187.247 121.09 199.315C103.619 214.587 86.7284 220.114 77.8833 215.013C69.3003 210.067 66.0181 193.846 70.1356 172.161C73.6145 153.838 82.3451 131.349 94.977 109.438L94.9811 109.438Z" clip-rule="evenodd"/><path fill-rule="evenodd" stroke="#00D8FF" stroke-width="8.911" d="M95.0123 147.578C82.4633 125.904 73.9194 103.962 70.3531 85.7517C66.0602 63.8109 69.0954 47.0355 77.7401 42.0315C86.7485 36.8163 103.792 42.866 121.674 58.7437C135.194 70.7479 149.077 88.8052 160.99 109.383C173.204 130.481 182.358 151.856 185.919 169.844C190.425 192.608 186.778 210.001 177.941 215.116C169.367 220.08 153.676 214.825 136.945 200.427C122.809 188.263 107.685 169.468 95.0123 147.578Z" clip-rule="evenodd"/></svg>
+        <text x="804" y="428.5" class="t">React</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.10s" fill="freeze"/>
+        <rect x="857" y="410" width="89" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="864" y="415" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#F4F2ED" rx="60"/><path fill="#000" d="M121.451 28.0537C121.021 28.0928 119.652 28.2297 118.42 28.3274C90.0137 30.8885 63.4057 46.216 46.5533 69.7742C37.1691 82.8729 31.1672 97.7312 28.8993 113.469C28.0978 118.963 28 120.586 28 128.034C28 135.483 28.0978 137.106 28.8993 142.599C34.3343 180.155 61.0596 211.71 97.306 223.401C103.797 225.493 110.639 226.92 118.42 227.78C121.451 228.112 134.549 228.112 137.58 227.78C151.011 226.294 162.389 222.971 173.611 217.242C175.331 216.363 175.664 216.128 175.429 215.933C175.273 215.815 167.941 205.981 159.144 194.095L143.152 172.492L123.112 142.834C112.086 126.529 103.015 113.195 102.936 113.195C102.858 113.176 102.78 126.353 102.741 142.443C102.682 170.615 102.663 171.749 102.311 172.413C101.803 173.371 101.412 173.762 100.59 174.193C99.9648 174.505 99.4174 174.564 96.4653 174.564H93.0831L92.1838 173.997C91.5973 173.626 91.1672 173.137 90.8739 172.57L90.4633 171.69L90.5024 132.492L90.5611 93.2737L91.1672 92.5112C91.48 92.1007 92.1447 91.5728 92.6139 91.3186C93.4154 90.9276 93.7283 90.8885 97.1105 90.8885C101.099 90.8885 101.763 91.0449 102.8 92.1789C103.093 92.4917 113.943 108.836 126.925 128.523C139.906 148.21 157.658 175.092 166.377 188.288L182.213 212.277L183.015 211.749C190.111 207.135 197.619 200.566 203.562 193.723C216.211 179.197 224.364 161.485 227.101 142.599C227.902 137.106 228 135.483 228 128.034C228 120.586 227.902 118.963 227.101 113.469C221.666 75.913 194.94 44.3587 158.694 32.6676C152.301 30.5953 145.498 29.1681 137.873 28.3079C135.996 28.1124 123.073 27.8973 121.451 28.0537ZM162.389 88.5425C163.327 89.0117 164.09 89.911 164.364 90.8494C164.52 91.3577 164.559 102.228 164.52 126.724L164.461 161.876L158.264 152.374L152.047 142.873V117.321C152.047 100.801 152.125 91.5141 152.242 91.0645C152.555 89.9697 153.239 89.1095 154.178 88.6011C154.979 88.1906 155.273 88.1515 158.342 88.1515C161.236 88.1515 161.744 88.1906 162.389 88.5425Z"/></svg>
+        <text x="888" y="428.5" class="t">Next.js</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.15s" fill="freeze"/>
+        <rect x="954" y="410" width="109" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="1.0s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="961" y="415" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#007ACC" rx="60"/><path fill="#fff" d="M56.6112 128.849L56.5299 139.333H73.1902H89.8505L89.8505 186.673V234.012H101.635H113.419V186.673L113.419 139.333H130.079H146.739V129.052C146.739 123.363 146.618 118.609 146.455 118.487C146.333 118.325 126.056 118.243 101.472 118.284L56.7331 118.406L56.6112 128.849Z"/><path fill="#fff" d="M206.567 118.108C213.068 119.734 218.026 122.619 222.577 127.332C224.934 129.852 228.428 134.444 228.713 135.541C228.794 135.866 217.66 143.343 210.915 147.528C210.671 147.691 209.695 146.634 208.598 145.009C205.307 140.214 201.853 138.141 196.57 137.776C188.809 137.247 183.811 141.311 183.852 148.097C183.852 150.088 184.136 151.266 184.949 152.892C186.655 156.427 189.825 158.54 199.781 162.847C218.107 170.731 225.949 175.932 230.826 183.327C236.271 191.576 237.49 204.742 233.792 214.535C229.729 225.181 219.651 232.414 205.469 234.812C201.081 235.584 190.678 235.462 185.965 234.609C175.684 232.78 165.932 227.701 159.918 221.037C157.561 218.436 152.969 211.65 153.254 211.162C153.375 211 154.432 210.35 155.61 209.659C156.748 209.009 161.056 206.53 165.119 204.173L172.474 199.906L174.018 202.182C176.172 205.473 180.885 209.984 183.73 211.487C191.897 215.795 203.113 215.185 208.639 210.228C210.996 208.074 211.971 205.839 211.971 202.548C211.971 199.581 211.605 198.281 210.061 196.046C208.07 193.202 204.007 190.804 192.466 185.806C179.26 180.117 173.571 176.582 168.37 170.974C165.363 167.724 162.518 162.522 161.34 158.174C160.365 154.558 160.121 145.496 160.893 141.839C163.615 129.08 173.246 120.181 187.143 117.539C191.654 116.686 202.137 117.011 206.567 118.108Z"/></svg>
+        <text x="985" y="428.5" class="t">TypeScript</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.20s" fill="freeze"/>
+        <rect x="508" y="446" width="83" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="1.2s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="515" y="451" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#F4F2ED" rx="60"/><path fill="url(#l6_paint0_linear_2_56)" d="M127.279 29C76.5066 29 79.6772 51.018 79.6772 51.018L79.7338 73.8284H128.185V80.6772H60.4893C60.4893 80.6772 28 76.9926 28 128.222C28 179.452 56.3573 177.636 56.3573 177.636H73.2812V153.863C73.2812 153.863 72.369 125.506 101.186 125.506H149.24C149.24 125.506 176.239 125.942 176.239 99.4123V55.5461C176.239 55.5461 180.338 29 127.279 29ZM100.563 44.339C105.384 44.339 109.28 48.2351 109.28 53.0556C109.28 57.8761 105.384 61.7723 100.563 61.7723C95.7426 61.7723 91.8465 57.8761 91.8465 53.0556C91.8465 48.2351 95.7426 44.339 100.563 44.339Z"/><path fill="url(#l6_paint1_linear_2_56)" d="M128.721 227.958C179.493 227.958 176.323 205.941 176.323 205.941L176.266 183.13H127.815V176.281H195.511C195.511 176.281 228 179.966 228 128.736C228 77.5062 199.643 79.323 199.643 79.323H182.719V103.096C182.719 103.096 183.631 131.453 154.814 131.453H106.76C106.76 131.453 79.7607 131.016 79.7607 157.546V201.412C79.7607 201.412 75.6615 227.958 128.721 227.958ZM155.437 212.619C150.616 212.619 146.72 208.723 146.72 203.903C146.72 199.082 150.616 195.186 155.437 195.186C160.257 195.186 164.154 199.082 164.154 203.903C164.154 208.723 160.257 212.619 155.437 212.619Z"/><defs><linearGradient id="l6_paint0_linear_2_56" x1="47.22" x2="146.333" y1="46.896" y2="145.02" gradientUnits="userSpaceOnUse"><stop stop-color="#387EB8"/><stop offset="1" stop-color="#366994"/></linearGradient><linearGradient id="l6_paint1_linear_2_56" x1="108.056" x2="214.492" y1="109.905" y2="210.522" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE052"/><stop offset="1" stop-color="#FFC331"/></linearGradient></defs></svg>
+        <text x="539" y="464.5" class="t">Python</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.25s" fill="freeze"/>
+        <rect x="599" y="446" width="56" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="1.4s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="606" y="451" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#00B4E0" rx="60"/><path fill="#fff" d="M40.5 113.234C40.1 113.234 40 113.034 40.2 112.734L42.3 110.034C42.5 109.734 43 109.534 43.4 109.534H79.1C79.5 109.534 79.6 109.834 79.4 110.134L77.7 112.734C77.5 113.034 77 113.334 76.7 113.334L40.5 113.234Z"/><path fill="#fff" d="M25.4 122.434C25 122.434 24.9 122.234 25.1 121.934L27.2 119.234C27.4 118.934 27.9 118.734 28.3 118.734H73.9C74.3 118.734 74.5 119.034 74.4 119.334L73.6 121.734C73.5 122.134 73.1 122.334 72.7 122.334L25.4 122.434Z"/><path fill="#fff" d="M49.6 131.634C49.2 131.634 49.1 131.334 49.3 131.034L50.7 128.534C50.9 128.234 51.3 127.934 51.7 127.934H71.7C72.1 127.934 72.3 128.234 72.3 128.634L72.1 131.034C72.1 131.434 71.7 131.734 71.4 131.734L49.6 131.634Z"/><path fill="#fff" d="M153.4 111.434C147.1 113.034 142.8 114.234 136.6 115.834C135.1 116.234 135 116.334 133.7 114.834C132.2 113.134 131.1 112.034 129 111.034C122.7 107.934 116.6 108.834 110.9 112.534C104.1 116.934 100.6 123.434 100.7 131.534C100.8 139.534 106.3 146.134 114.2 147.234C121 148.134 126.7 145.734 131.2 140.634C132.1 139.534 132.9 138.334 133.9 136.934C130.3 136.934 125.8 136.934 114.6 136.934C112.5 136.934 112 135.634 112.7 133.934C114 130.834 116.4 125.634 117.8 123.034C118.1 122.434 118.8 121.434 120.3 121.434C125.4 121.434 144.2 121.434 156.7 121.434C156.5 124.134 156.5 126.834 156.1 129.534C155 136.734 152.3 143.334 147.9 149.134C140.7 158.634 131.3 164.534 119.4 166.134C109.6 167.434 100.5 165.534 92.5 159.534C85.1 153.934 80.9 146.534 79.8 137.334C78.5 126.434 81.7 116.634 88.3 108.034C95.4 98.7343 104.8 92.8343 116.3 90.7343C125.7 89.0343 134.7 90.1343 142.8 95.6343C148.1 99.1343 151.9 103.934 154.4 109.734C155 110.634 154.6 111.134 153.4 111.434Z"/><path fill="#fff" d="M186.5 166.734C177.4 166.534 169.1 163.934 162.1 157.934C156.2 152.834 152.5 146.334 151.3 138.634C149.5 127.334 152.6 117.334 159.4 108.434C166.7 98.8343 175.5 93.8343 187.4 91.7343C197.6 89.9343 207.2 90.9343 215.9 96.8343C223.8 102.234 228.7 109.534 230 119.134C231.7 132.634 227.8 143.634 218.5 153.034C211.9 159.734 203.8 163.934 194.5 165.834C191.8 166.334 189.1 166.434 186.5 166.734ZM210.3 126.334C210.2 125.034 210.2 124.034 210 123.034C208.2 113.134 199.1 107.534 189.6 109.734C180.3 111.834 174.3 117.734 172.1 127.134C170.3 134.934 174.1 142.834 181.3 146.034C186.8 148.434 192.3 148.134 197.6 145.434C205.5 141.334 209.8 134.934 210.3 126.334Z"/></svg>
+        <text x="630" y="464.5" class="t">Go</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.30s" fill="freeze"/>
+        <rect x="663" y="446" width="69" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="1.6s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="670" y="451" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#E43717" rx="60"/><path fill="#fff" d="M226.574 125.551L218.184 120.353C218.113 119.535 218.033 118.719 217.945 117.907L225.169 111.18C225.903 110.496 226.232 109.483 226.033 108.504C225.84 107.52 225.15 106.71 224.212 106.364L214.98 102.924C214.749 102.125 214.506 101.332 214.258 100.535L220.011 92.5468C220.598 91.7345 220.718 90.6777 220.336 89.7566C219.953 88.8335 219.118 88.1723 218.138 88.0098L208.409 86.4275C208.031 85.6898 207.637 84.9636 207.239 84.2488L211.33 75.2668C211.748 74.3533 211.662 73.2983 211.104 72.4575C210.548 71.6242 209.606 71.1369 208.6 71.1751L198.719 71.5191C198.209 70.8808 197.689 70.2483 197.159 69.6272L199.434 60.0144C199.663 59.0379 199.375 58.0078 198.664 57.3007C197.958 56.5936 196.934 56.3012 195.949 56.5305L186.336 58.8047C185.713 58.2772 185.08 57.7555 184.44 57.2453L184.786 47.365C184.824 46.3655 184.336 45.4157 183.503 44.8615C182.668 44.3034 181.611 44.2193 180.693 44.634L171.729 48.7238C171.005 48.3263 170.279 47.9326 169.551 47.5523L167.964 37.8249C167.804 36.8387 167.142 36.0017 166.217 35.6271C165.294 35.243 164.23 35.3672 163.427 35.952L155.438 41.7044C154.65 41.454 153.859 41.2132 153.068 40.9839L149.627 31.7534C149.277 30.8131 148.467 30.1232 147.487 29.9283C146.504 29.7353 145.499 30.0621 144.811 30.7921L138.083 38.016C137.271 37.9262 136.453 37.844 135.637 37.7771L130.438 29.3683C129.912 28.5179 128.981 28 127.972 28C126.963 28 126.042 28.5179 125.526 29.3683L120.327 37.7771C119.509 37.844 118.691 37.9262 117.881 38.016L111.153 30.7921C110.471 30.0621 109.458 29.7353 108.477 29.9283C107.493 30.1251 106.682 30.8131 106.336 31.7534L102.896 40.9839C102.097 41.2132 101.306 41.4559 100.526 41.7044L92.5368 35.952C91.7245 35.3653 90.6657 35.2411 89.7463 35.6271C88.8232 36.0093 88.16 36.8464 87.9994 37.8249L86.413 47.5523C85.6791 47.9326 84.9528 48.3243 84.2342 48.7238L75.2702 44.634C74.3585 44.2174 73.3016 44.3034 72.4606 44.8615C71.6273 45.4157 71.1399 46.3655 71.1781 47.365L71.5221 57.2453C70.8838 57.7555 70.2511 58.2772 69.6261 58.8047L60.0123 56.5305C59.0356 56.3031 58.0054 56.5936 57.2983 57.3007C56.5873 58.0097 56.2987 59.0321 56.528 60.0144L58.7833 69.6272C58.2577 70.2502 57.7379 70.8808 57.2275 71.5191L47.3461 71.1751C46.3504 71.1465 45.3966 71.6242 44.8423 72.4575C44.2842 73.2869 44.2002 74.3494 44.6149 75.2668L48.7051 84.2488C48.3075 84.9693 47.9138 85.6955 47.5335 86.4275L37.805 88.0098C36.8168 88.1704 35.9835 88.8316 35.607 89.7566C35.2247 90.6835 35.3489 91.7441 35.9319 92.5468L41.6849 100.535C41.4345 101.324 41.1918 102.117 40.9624 102.924L31.7309 106.364C30.7943 106.714 30.1043 107.524 29.9094 108.504C29.7144 109.487 30.0413 110.492 30.7733 111.18L37.998 117.907C37.9082 118.719 37.8279 119.537 37.7591 120.353L29.3685 125.551C28.518 126.077 28 127.005 28 128.016C28 129.027 28.518 129.947 29.3685 130.463L37.7591 135.661C37.8279 136.479 37.9082 137.295 37.998 138.107L30.7733 144.834C30.0413 145.516 29.7144 146.529 29.9094 147.509C30.1043 148.494 30.7943 149.302 31.7309 149.65L40.9624 153.09C41.1918 153.889 41.4345 154.682 41.6849 155.479L35.9319 163.467C35.347 164.281 35.2228 165.338 35.607 166.257C35.9911 167.184 36.8264 167.845 37.8241 168.004L47.5526 169.586C47.9329 170.324 48.3228 171.05 48.7242 171.765L44.634 180.728C44.2174 181.639 44.3034 182.696 44.8615 183.537C45.4196 184.372 46.3695 184.86 47.3653 184.819L57.2275 184.474C57.7417 185.116 58.2597 185.744 58.7872 186.369L56.5318 195.982C56.3025 196.957 56.5911 197.97 57.3021 198.677C58.0074 199.39 59.0337 199.674 60.0161 199.445L69.63 197.19C70.2549 197.721 70.8876 198.237 71.526 198.746L71.1819 208.626C71.1437 209.625 71.6311 210.575 72.4644 211.129C73.2939 211.685 74.3566 211.77 75.274 211.353L84.238 207.263C84.9605 207.665 85.6868 208.054 86.4169 208.435L88.0032 218.162C88.1638 219.152 88.8251 219.989 89.7502 220.379C90.6733 220.763 91.7379 220.639 92.5407 220.056L100.53 214.304C101.319 214.554 102.112 214.799 102.919 215.028L106.359 224.258C106.709 225.195 107.519 225.889 108.5 226.08C109.482 226.278 110.488 225.95 111.176 225.216L117.904 217.992C118.716 218.086 119.534 218.164 120.35 218.237L125.549 226.626C126.072 227.473 127.003 227.995 127.995 227.995C128.987 227.995 129.926 227.475 130.461 226.626L135.66 218.237C136.478 218.164 137.294 218.086 138.106 217.992L144.834 225.216C145.516 225.95 146.529 226.278 147.51 226.08C148.494 225.887 149.304 225.195 149.65 224.258L153.091 215.028C153.889 214.799 154.683 214.554 155.48 214.304L163.469 220.056C164.281 220.639 165.34 220.763 166.259 220.379C167.184 219.999 167.846 219.16 168.006 218.162L169.593 208.435C170.327 208.054 171.053 207.659 171.772 207.263L180.736 211.353C181.647 211.77 182.704 211.685 183.545 211.129C184.378 210.571 184.864 209.625 184.828 208.626L184.484 198.746C185.122 198.235 185.755 197.721 186.378 197.19L195.991 199.445C196.968 199.674 197.998 199.39 198.706 198.677C199.417 197.968 199.705 196.949 199.476 195.982L197.22 186.369C197.748 185.744 198.268 185.116 198.776 184.474L208.658 184.819C209.653 184.86 210.607 184.372 211.161 183.537C211.72 182.704 211.806 181.643 211.387 180.728L207.297 171.765C207.696 171.041 208.088 170.314 208.467 169.586L218.195 168.004C219.185 167.845 220.018 167.184 220.393 166.257C220.775 165.334 220.655 164.27 220.068 163.467L214.315 155.479C214.564 154.689 214.806 153.896 215.038 153.09L224.269 149.65C225.208 149.298 225.899 148.49 226.091 147.509C226.289 146.527 225.961 145.522 225.227 144.834L218.002 138.107C218.09 137.295 218.17 136.477 218.241 135.661L226.632 130.463C227.482 129.939 228 129.008 228 128.016C228 127.025 227.484 126.086 226.633 125.551H226.574ZM170.382 195.306C167.171 194.614 165.145 191.445 165.833 188.235C166.519 185.024 169.675 182.979 172.886 183.667C176.097 184.353 178.142 187.527 177.454 190.738C176.766 193.949 173.612 195.994 170.401 195.306H170.382ZM167.534 176.004C164.61 175.377 161.724 177.238 161.112 180.17L158.131 194.082C148.937 198.249 138.635 200.58 127.932 200.58C116.923 200.58 106.526 198.153 97.1603 193.796L94.1786 179.883C93.5517 176.959 90.681 175.086 87.7567 175.717L75.467 178.354C73.1926 176.004 71.0711 173.5 69.1215 170.863H128.945C129.622 170.863 130.073 170.741 130.073 170.125V148.912C130.073 148.297 129.622 148.175 128.945 148.175H111.457V134.778H130.359C132.085 134.778 139.591 135.271 141.98 144.868C142.731 147.811 144.388 157.405 145.516 160.482C146.64 163.922 151.212 170.802 156.086 170.802H185.902C186.24 170.802 186.601 170.763 186.982 170.695C184.917 173.504 182.643 176.16 180.216 178.645L167.639 175.95L167.534 176.004ZM84.7751 195.019C81.5641 195.711 78.4104 193.666 77.7224 190.451C77.0362 187.241 79.0756 184.068 82.2904 183.38C85.5014 182.694 88.655 184.739 89.3431 187.948C90.0292 191.159 87.988 194.331 84.7751 195.019ZM62.0306 103.096C63.3609 106.096 62.0077 109.613 59.0108 110.95C56.0101 112.282 52.5124 110.928 51.1745 107.931C49.8366 104.934 51.1974 101.414 54.1943 100.076C57.1951 98.7463 60.6927 100.099 62.0306 103.096ZM55.0544 119.608L67.8601 113.913C70.5932 112.699 71.8356 109.498 70.6124 106.765L67.9748 100.803H78.334V147.433H57.5009C55.687 141.05 54.7104 134.323 54.7104 127.367C54.7104 124.71 54.8537 122.092 55.1289 119.512L55.0544 119.608ZM111.247 115.078V101.319H135.902C137.177 101.319 144.904 102.792 144.904 108.562C144.904 113.358 138.979 115.078 134.106 115.078H111.17H111.247ZM200.886 127.462C200.886 129.289 200.819 131.093 200.686 132.89H193.174C192.423 132.89 192.121 133.383 192.121 134.118V137.558C192.121 145.661 187.553 147.439 183.539 147.878C179.717 148.308 175.493 146.281 174.977 143.941C172.721 131.271 168.975 128.576 163.05 123.875C170.409 119.212 178.054 112.313 178.054 103.044C178.054 93.0876 171.231 86.8192 166.586 83.7424C160.05 79.4425 152.825 78.5825 150.875 78.5825H73.2767C83.8079 66.8485 98.1236 58.5161 114.178 55.4584L123.334 65.052C125.398 67.2116 128.819 67.3071 130.998 65.2279L141.242 55.4431C162.649 59.4373 180.806 72.7766 191.318 91.1803L184.304 107.004C183.094 109.737 184.329 112.948 187.056 114.152L200.55 120.152C200.783 122.541 200.905 124.968 200.905 127.414L200.886 127.462ZM123.288 47.3879C125.658 45.1137 129.423 45.2093 131.678 47.5809C133.934 49.9507 133.857 53.7155 131.481 55.9897C129.111 58.2639 125.346 58.1683 123.091 55.7948C120.836 53.425 120.912 49.6602 123.288 47.386V47.3879ZM192.859 103.383C194.187 100.382 197.694 99.0253 200.695 100.363C203.696 101.693 205.053 105.217 203.715 108.218C202.387 111.218 198.879 112.575 195.879 111.237C192.878 109.907 191.521 106.383 192.859 103.383Z"/></svg>
+        <text x="694" y="464.5" class="t">Rust</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.35s" fill="freeze"/>
+        <rect x="740" y="446" width="63" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="1.8s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="747" y="451" width="18" height="18" viewBox="0 0 256 256">
+<rect width="256" height="256" rx="60" fill="#F4F2ED"/>
+<path d="M206.709 91.2411C206.304 90.8108 205.873 90.3804 205.443 89.9753C205.012 89.5703 204.607 89.1146 204.177 88.7095C203.747 88.3044 203.342 87.8487 202.911 87.4437C202.481 87.0386 202.076 86.5829 201.645 86.1778C201.215 85.7728 200.81 85.3171 200.38 84.912C199.949 84.507 199.544 84.0513 199.114 83.6462C198.683 83.2411 198.278 82.7854 197.848 82.3804C210.405 94.7214 217.599 111.51 217.873 129.115C217.873 171.064 175.291 205.191 122.936 205.191C93.6199 205.191 67.392 194.482 49.949 177.697L51.2148 178.963L52.4806 180.229L53.7464 181.494L55.0123 182.76L56.2781 184.026L57.5439 185.292L58.8097 186.558C76.2275 204.051 103.038 215.317 133.063 215.317C185.417 215.317 228 181.191 228 139.368C228 121.494 220.304 104.558 206.709 91.2411Z" fill="black"/>
+<path d="M211.544 129.114C211.544 167.62 171.874 198.836 122.937 198.836C74 198.836 34.3291 167.62 34.3291 129.114C34.3291 105.241 49.519 84.1519 72.8608 71.6456C96.2026 59.1392 110.734 46.3291 122.937 46.3291C135.139 46.3291 145.57 56.7848 173.013 71.6456C196.355 84.1519 211.544 105.241 211.544 129.114Z" fill="#FBF0DF"/>
+<path d="M211.544 129.114C211.532 124.167 210.851 119.245 209.519 114.481C202.608 198.785 99.7722 202.835 59.3418 177.62C77.5166 191.707 99.9446 199.189 122.937 198.835C171.798 198.835 211.544 167.57 211.544 129.114Z" fill="#F6DECE"/>
+<path d="M88.8355 67.0127C100.152 60.2278 115.19 47.4937 129.975 47.4683C127.7 46.7332 125.327 46.349 122.937 46.3291C116.81 46.3291 110.279 49.4937 102.051 54.2532C99.1899 55.924 96.2279 57.7721 93.0887 59.6962C87.1899 63.3418 80.4304 67.4684 72.8355 71.5949C48.7342 84.6329 34.3291 106.127 34.3291 129.114C34.3291 130.127 34.3291 131.139 34.3291 132.127C49.6709 77.9241 77.5443 73.7975 88.8355 67.0127Z" fill="#FFFEFC"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M115.645 52.7341C115.681 58.7119 114.426 64.6269 111.966 70.0753C109.506 75.5236 105.899 80.3769 101.392 84.3038C100.683 84.9367 101.24 86.1519 102.152 85.7974C110.683 82.481 122.202 72.5569 117.342 52.5316C117.139 51.3924 115.645 51.6962 115.645 52.7341ZM121.392 52.7341C124.49 57.7884 126.458 63.4527 127.162 69.3388C127.865 75.2249 127.287 81.1935 125.468 86.8354C125.164 87.7215 126.253 88.481 126.861 87.7468C132.405 80.6582 137.24 66.5822 122.759 51.3924C122.025 50.7341 120.886 51.7468 121.392 52.6329V52.7341ZM128.38 52.3037C133.231 55.7381 137.289 60.1727 140.28 65.3086C143.272 70.4444 145.127 76.1621 145.721 82.0759C145.696 82.289 145.753 82.5038 145.882 82.6758C146.01 82.8477 146.2 82.9636 146.412 82.9994C146.623 83.0352 146.84 82.9882 147.018 82.8681C147.196 82.748 147.321 82.5641 147.367 82.3544C149.696 73.519 148.38 58.4556 129.215 50.6329C128.202 50.2278 127.544 51.5949 128.38 52.2025V52.3037ZM81.6454 78.6329C87.4157 76.909 92.7583 73.9891 97.3252 70.0634C101.892 66.1377 105.581 61.2941 108.152 55.8481C108.607 54.9367 110.051 55.2911 109.823 56.3037C105.443 76.5569 90.7847 80.7848 81.6708 80.2278C80.7087 80.2531 80.734 78.9114 81.6454 78.6329Z" fill="#CCBEA7"/>
+<path d="M122.937 205.19C70.5823 205.19 28 171.063 28 129.114C28 103.798 43.6456 80.1773 69.8481 66.0253C77.4431 61.9747 83.9494 57.8988 89.7469 54.3291C92.9368 52.3544 95.9494 50.5063 98.8608 48.7848C107.747 43.519 115.342 40 122.937 40C130.532 40 137.165 43.038 145.468 47.9494C148 49.3924 150.532 50.962 153.241 52.6836C159.544 56.5823 166.658 60.9874 176.025 66.0253C202.228 80.1773 217.874 103.772 217.874 129.114C217.874 171.063 175.291 205.19 122.937 205.19ZM122.937 46.3291C116.81 46.3291 110.279 49.4937 102.051 54.2532C99.1899 55.9241 96.2279 57.7722 93.0887 59.6962C87.1899 63.3418 80.4304 67.4684 72.8355 71.595C48.7342 84.633 34.3291 106.127 34.3291 129.114C34.3291 167.57 74.076 198.861 122.937 198.861C171.798 198.861 211.544 167.57 211.544 129.114C211.544 106.127 197.139 84.633 173.013 71.6456C163.443 66.5823 155.975 61.8228 149.924 58.076C147.165 56.3798 144.633 54.8101 142.329 53.4177C134.658 48.8608 129.063 46.3291 122.937 46.3291Z" fill="black"/>
+<path d="M140.785 147.596C139.648 152.254 137.059 156.429 133.393 159.52C130.64 162.188 127.077 163.863 123.266 164.279C119.341 163.929 115.652 162.25 112.81 159.52C109.181 156.415 106.629 152.241 105.519 147.596C105.482 147.32 105.509 147.039 105.598 146.775C105.686 146.512 105.834 146.272 106.029 146.074C106.225 145.876 106.463 145.725 106.725 145.634C106.988 145.542 107.268 145.512 107.544 145.545H138.785C139.059 145.516 139.337 145.549 139.596 145.643C139.855 145.736 140.09 145.887 140.283 146.085C140.475 146.282 140.621 146.521 140.708 146.782C140.795 147.044 140.821 147.322 140.785 147.596Z" fill="#B71422"/>
+<path d="M112.81 159.722C115.647 162.453 119.322 164.148 123.241 164.532C127.151 164.142 130.816 162.448 133.646 159.722C134.551 158.878 135.397 157.973 136.177 157.013C134.618 155.243 132.713 153.812 130.579 152.806C128.446 151.8 126.13 151.242 123.772 151.165C121.25 151.224 118.78 151.896 116.575 153.122C114.37 154.348 112.496 156.092 111.114 158.203C111.696 158.734 112.203 159.241 112.81 159.722Z" fill="#FF6164"/>
+<path d="M113.215 157.722C114.471 156.099 116.077 154.783 117.914 153.871C119.752 152.958 121.772 152.475 123.823 152.456C127.614 152.568 131.227 154.094 133.95 156.734C134.532 156.101 135.089 155.443 135.62 154.785C132.4 151.718 128.143 149.974 123.696 149.899C121.32 149.919 118.977 150.466 116.837 151.499C114.696 152.532 112.811 154.026 111.317 155.874C111.915 156.524 112.549 157.141 113.215 157.722Z" fill="black"/>
+<path d="M123.165 165.798C118.946 165.428 114.976 163.644 111.899 160.734C107.98 157.42 105.222 152.941 104.026 147.95C103.94 147.505 103.954 147.047 104.068 146.609C104.182 146.171 104.392 145.764 104.684 145.418C105.031 144.999 105.469 144.665 105.965 144.441C106.46 144.217 107.001 144.11 107.545 144.127H138.785C139.328 144.115 139.867 144.225 140.361 144.449C140.856 144.672 141.295 145.003 141.646 145.418C141.934 145.765 142.141 146.173 142.251 146.612C142.36 147.05 142.37 147.507 142.279 147.95C141.083 152.941 138.324 157.42 134.405 160.734C131.335 163.639 127.375 165.422 123.165 165.798ZM107.545 147.063C107.139 147.063 107.038 147.241 107.013 147.291C108.083 151.62 110.504 155.495 113.924 158.355C116.425 160.819 119.677 162.378 123.165 162.785C126.643 162.382 129.891 160.843 132.405 158.405C135.815 155.54 138.226 151.666 139.291 147.342C139.236 147.261 139.16 147.197 139.07 147.157C138.981 147.116 138.882 147.102 138.785 147.114L107.545 147.063Z" fill="black"/>
+<path d="M161.469 149.164C169.648 149.164 176.279 145.265 176.279 140.455C176.279 135.646 169.648 131.747 161.469 131.747C153.289 131.747 146.659 135.646 146.659 140.455C146.659 145.265 153.289 149.164 161.469 149.164Z" fill="#FEBBD0"/>
+<path d="M84.8358 149.164C93.0152 149.164 99.6459 145.265 99.6459 140.455C99.6459 135.646 93.0152 131.747 84.8358 131.747C76.6564 131.747 70.0256 135.646 70.0256 140.455C70.0256 145.265 76.6564 149.164 84.8358 149.164Z" fill="#FEBBD0"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M91.7978 136.962C94.5578 136.967 97.2573 136.153 99.5546 134.623C101.852 133.093 103.644 130.917 104.703 128.368C105.763 125.82 106.043 123.014 105.508 120.307C104.972 117.599 103.646 115.111 101.696 113.158C99.746 111.204 97.2605 109.873 94.5539 109.333C91.8473 108.793 89.0412 109.067 86.4908 110.122C83.9404 111.177 81.7603 112.965 80.2264 115.26C78.6925 117.554 77.8738 120.252 77.8738 123.012C77.8738 126.708 79.34 130.252 81.9505 132.867C84.561 135.482 88.1026 136.955 91.7978 136.962ZM154.507 136.962C157.27 136.982 159.977 136.181 162.284 134.66C164.591 133.14 166.395 130.968 167.466 128.421C168.538 125.874 168.828 123.066 168.302 120.354C167.775 117.641 166.454 115.146 164.508 113.185C162.561 111.224 160.076 109.885 157.367 109.339C154.658 108.792 151.848 109.063 149.293 110.115C146.739 111.168 144.554 112.956 143.017 115.252C141.479 117.548 140.659 120.249 140.659 123.012C140.652 126.697 142.105 130.233 144.701 132.848C147.297 135.462 150.823 136.942 154.507 136.962Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M87.494 123.898C88.5315 123.903 89.5472 123.6 90.4123 123.028C91.2775 122.455 91.9531 121.638 92.3536 120.681C92.7541 119.724 92.8615 118.669 92.6622 117.651C92.4629 116.633 91.9658 115.697 91.2339 114.961C90.502 114.226 89.5683 113.724 88.551 113.52C87.5338 113.316 86.4788 113.418 85.5198 113.814C84.5607 114.21 83.7407 114.882 83.1638 115.744C82.5868 116.606 82.2788 117.62 82.2788 118.658C82.2788 120.043 82.8274 121.373 83.8048 122.355C84.7821 123.337 86.1085 123.892 87.494 123.898ZM150.203 123.898C151.24 123.903 152.256 123.6 153.121 123.028C153.986 122.455 154.662 121.638 155.063 120.681C155.463 119.724 155.57 118.669 155.371 117.651C155.172 116.633 154.675 115.697 153.943 114.961C153.211 114.226 152.277 113.724 151.26 113.52C150.243 113.316 149.188 113.418 148.229 113.814C147.27 114.21 146.45 114.882 145.873 115.744C145.296 116.606 144.988 117.62 144.988 118.658C144.988 120.035 145.529 121.356 146.496 122.337C147.462 123.318 148.776 123.878 150.152 123.898H150.203Z" fill="white"/>
+</svg>
+        <text x="771" y="464.5" class="t">Bun</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.40s" fill="freeze"/>
+        <rect x="811" y="446" width="89" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="2.0s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="818" y="451" width="18" height="18" viewBox="0 0 256 256">
+<rect width="256" height="256" rx="60" fill="#F4F2ED"/>
+<path d="M180.975 90.4153L167.567 103.824C189.508 125.765 189.508 161.115 167.567 182.65C145.625 204.591 110.275 204.591 88.7404 182.65C66.7991 160.709 66.7991 125.359 88.7404 103.824L123.481 69.0835L128.357 64.2077V38L75.9413 90.4153C46.6862 119.67 46.6862 166.804 75.9413 196.059C105.196 225.314 152.33 225.314 180.975 196.059C210.23 166.6 210.23 119.67 180.975 90.4153Z" fill="#EE4C2C"/>
+<path d="M154.768 87.1646C160.153 87.1646 164.519 82.7986 164.519 77.4129C164.519 72.0272 160.153 67.6611 154.768 67.6611C149.382 67.6611 145.016 72.0272 145.016 77.4129C145.016 82.7986 149.382 87.1646 154.768 87.1646Z" fill="#EE4C2C"/>
+</svg>
+        <text x="842" y="464.5" class="t">PyTorch</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.45s" fill="freeze"/>
+        <rect x="908" y="446" width="89" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="2.2s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="915" y="451" width="18" height="18" viewBox="0 0 256 256">
+<rect width="256" height="256" rx="60" fill="#049789"/>
+<path d="M127.5 41C79.743 41 41 79.743 41 127.5C41 175.257 79.743 214 127.5 214C175.257 214 214 175.257 214 127.5C214 79.743 175.257 41 127.5 41ZM122.993 196.839V142.581H92.8306L136.167 58.1615V112.419H165.203L122.993 196.839Z" fill="white"/>
+</svg>
+        <text x="939" y="464.5" class="t">FastAPI</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.50s" fill="freeze"/>
+        <rect x="1005" y="446" width="63" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="2.4s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="1012" y="451" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#F4F2ED" rx="60"/><path fill="#EA4335" d="M161.009 92.3895L178.394 75.0043L179.553 67.684C147.873 38.877 97.5124 42.1434 68.9538 74.4997C61.021 83.4864 55.1358 94.6903 51.9976 106.26L58.2241 105.382L92.9937 99.6489L95.678 96.9036C111.144 79.9176 137.295 77.6325 155.153 92.0848L161.009 92.3895Z"/><path fill="#4285F4" d="M203.16 105.749C199.164 91.033 190.96 77.8041 179.553 67.6846L155.153 92.0846C165.456 100.503 171.326 113.186 171.074 126.489V130.82C183.067 130.82 192.79 140.542 192.79 152.535C192.79 164.529 183.067 174.008 171.074 174.008H127.581L123.311 178.644V204.691L127.581 208.778H171.074C202.269 209.021 227.755 184.173 227.998 152.978C228.145 134.069 218.823 116.342 203.16 105.749Z"/><path fill="#34A853" d="M84.1488 208.778H127.581V174.008H84.1488C81.0543 174.007 78.0574 173.342 75.2433 172.056L69.0816 173.947L51.5746 191.332L50.0496 197.249C59.8675 204.662 71.8464 208.831 84.1488 208.778Z"/><path fill="#FBBC05" d="M84.1487 95.9886C52.9526 96.1746 27.8151 121.615 28.001 152.811C28.1049 170.231 36.2409 186.629 50.0495 197.249L75.2432 172.056C64.3128 167.118 59.4557 154.254 64.394 143.325C69.3315 132.395 82.1956 127.538 93.1245 132.475C97.9409 134.651 101.798 138.509 103.974 143.325L129.167 118.132C118.448 104.118 101.792 95.9254 84.1487 95.9886Z"/></svg>
+        <text x="1036" y="464.5" class="t">GCP</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.55s" fill="freeze"/>
+        <rect x="508" y="482" width="76" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="2.6s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="515" y="487" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#F4F2ED" rx="60"/><path fill="url(#l13_paint0_linear_159_744)" d="M94.6743 34.0023H153.856L92.4196 216.032C91.7882 217.902 90.586 219.528 88.9824 220.679C87.3788 221.831 85.4545 222.45 83.4803 222.451H37.4223C35.9265 222.451 34.4522 222.095 33.1213 221.412C31.7904 220.729 30.6411 219.74 29.7687 218.525C28.8962 217.31 28.3256 215.905 28.104 214.425C27.8824 212.946 28.0162 211.435 28.4943 210.018L85.7327 40.4209C86.3639 38.5497 87.5662 36.9236 89.1703 35.7717C90.7744 34.6198 92.6995 34.0001 94.6743 34V34.0023Z"/><path fill="#0078D4" d="M180.674 156.095H86.8261C85.9536 156.094 85.101 156.356 84.3795 156.847C83.6579 157.337 83.1008 158.034 82.7807 158.845C82.4606 159.657 82.3923 160.546 82.5848 161.397C82.7773 162.248 83.2217 163.022 83.86 163.616L144.165 219.903C145.92 221.54 148.232 222.451 150.633 222.451H203.774L180.674 156.095Z"/><path fill="url(#l13_paint1_linear_159_744)" d="M94.6745 34.0023C92.6781 33.9946 90.7315 34.6255 89.1192 35.8028C87.5068 36.98 86.3131 38.642 85.7125 40.5459L28.5649 209.863C28.0546 211.286 27.8944 212.81 28.0979 214.308C28.3013 215.805 28.8624 217.232 29.7337 218.466C30.6051 219.701 31.7609 220.708 33.1036 221.401C34.4463 222.095 35.9362 222.455 37.4474 222.451H84.6942C86.4539 222.136 88.0986 221.36 89.4603 220.202C90.822 219.044 91.8519 217.546 92.4448 215.859L103.841 182.273L144.549 220.241C146.255 221.652 148.395 222.433 150.608 222.451H203.551L180.331 156.096L112.642 156.112L154.07 34.0023H94.6745Z"/><path fill="url(#l13_paint2_linear_159_744)" d="M170.264 40.4118C169.634 38.5435 168.434 36.9201 166.832 35.7702C165.23 34.6204 163.308 34.002 161.336 34.0022H95.3792C97.3508 34.0023 99.2727 34.6208 100.874 35.7707C102.476 36.9205 103.677 38.5437 104.307 40.4118L161.548 210.016C162.026 211.433 162.16 212.944 161.939 214.424C161.718 215.904 161.147 217.309 160.275 218.525C159.402 219.74 158.253 220.73 156.922 221.413C155.591 222.096 154.116 222.453 152.62 222.453H218.579C220.075 222.452 221.55 222.096 222.88 221.413C224.211 220.729 225.36 219.739 226.233 218.524C227.105 217.308 227.675 215.903 227.896 214.423C228.118 212.944 227.984 211.433 227.505 210.016L170.264 40.4118Z"/><defs><linearGradient id="l13_paint0_linear_159_744" x1="116.244" x2="54.783" y1="47.967" y2="229.54" gradientUnits="userSpaceOnUse"><stop stop-color="#114A8B"/><stop offset="1" stop-color="#0669BC"/></linearGradient><linearGradient id="l13_paint1_linear_159_744" x1="135.444" x2="121.227" y1="132.585" y2="137.392" gradientUnits="userSpaceOnUse"><stop stop-opacity=".3"/><stop offset=".071" stop-opacity=".2"/><stop offset=".321" stop-opacity=".1"/><stop offset=".623" stop-opacity=".05"/><stop offset="1" stop-opacity="0"/></linearGradient><linearGradient id="l13_paint2_linear_159_744" x1="127.625" x2="195.091" y1="42.671" y2="222.414" gradientUnits="userSpaceOnUse"><stop stop-color="#3CCBF4"/><stop offset="1" stop-color="#2892DF"/></linearGradient></defs></svg>
+        <text x="539" y="500.5" class="t">Azure</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.60s" fill="freeze"/>
+        <rect x="592" y="482" width="83" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="2.8s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="599" y="487" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#2396ED" rx="60"/><path fill="#fff" d="M141.187 122.123H161.904V103.379H141.187V122.123ZM116.525 122.123H137.241V103.379H116.525V122.123ZM92.3554 122.123H113.072V103.379H92.3554V122.123ZM68.1859 122.123H88.4093V103.379H68.1859V122.123ZM43.5233 122.123H64.2399V103.379H43.5233V122.123ZM68.1859 99.4333H88.4093V80.6896H68.1859V99.4333ZM92.3554 99.4333H113.072V80.6896H92.3554V99.4333ZM116.525 99.4333H137.241V80.6896H116.525V99.4333ZM116.525 76.7436H137.241V58H116.525V76.7436ZM228 113.738C228 113.738 219.121 105.352 200.871 108.312C198.898 94.0075 183.607 85.6222 183.607 85.6222C183.607 85.6222 169.303 102.886 179.661 122.123C176.702 123.603 171.769 125.576 164.37 125.576H28.7257C26.2594 134.948 26.2594 197.097 94.3284 197.097C143.16 197.097 179.661 174.408 196.925 132.974C222.574 134.948 228 113.738 228 113.738Z"/></svg>
+        <text x="623" y="500.5" class="t">Docker</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.65s" fill="freeze"/>
+        <rect x="683" y="482" width="63" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="3.0s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="690" y="487" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#326CE5" rx="60"/><path fill="#fff" stroke="#fff" stroke-width=".11" d="M128.073 30C124.796 30.2304 122.313 33.0377 122.484 36.3143V37.9185C122.637 39.736 122.91 41.5364 123.269 43.3198C123.792 46.7349 123.98 50.1928 123.832 53.6446C123.507 54.7794 122.859 55.8034 121.972 56.5884L121.844 58.9947C118.388 59.2848 114.958 59.8138 111.579 60.5818C97.3628 63.7901 84.4184 71.1625 74.4264 81.7859L72.3785 80.3353C71.2522 80.6767 70.0405 80.5487 69.0081 79.994C66.2384 77.9441 63.675 75.6293 61.3541 73.0824C60.1883 71.6894 58.9432 70.3646 57.6252 69.1146L56.3624 68.1078C55.236 67.2033 53.8537 66.6828 52.4117 66.6145C51.5511 66.5689 50.6919 66.7275 49.9045 67.0775C49.117 67.4275 48.4235 67.9589 47.8807 68.6283C45.9523 71.3332 46.5837 75.0791 49.2801 77.0161L50.4576 77.9547C51.9734 78.9632 53.546 79.8834 55.1678 80.7108C58.1884 82.3918 61.0384 84.3629 63.6836 86.6838C64.3602 87.6487 64.7533 88.7837 64.8184 89.9604L66.6786 91.667C56.6354 106.736 52.514 124.988 55.091 142.915L52.7018 143.598C52.0789 144.588 51.2512 145.433 50.2614 146.055C46.928 146.946 43.5158 147.509 40.0731 147.736C38.2461 147.774 36.4227 147.916 34.6121 148.163L33.1018 148.504H32.9311C31.883 148.65 30.8958 149.083 30.0795 149.757C29.2632 150.43 28.6497 151.316 28.3074 152.318C27.9651 153.319 27.9074 154.396 28.1407 155.428C28.374 156.46 28.8892 157.407 29.6289 158.164C30.3755 158.916 31.3168 159.447 32.3475 159.695C33.3781 159.944 34.4577 159.901 35.4654 159.571H35.5763L37.1122 159.401C38.8444 158.889 40.551 158.257 42.2149 157.541C45.4147 156.261 48.734 155.279 52.1301 154.64C53.3076 154.708 54.4339 155.109 55.3896 155.791L57.9495 155.365C63.4958 172.576 75.1517 187.158 90.7157 196.348L89.6746 198.524C90.1525 199.522 90.3317 200.632 90.1866 201.732C88.7787 204.992 87.0551 208.115 85.0413 211.05C83.9366 212.506 82.9167 214.025 81.9865 215.598L81.2612 217.134C80.735 218.047 80.4713 219.088 80.4992 220.141C80.5271 221.194 80.8456 222.219 81.4194 223.103C81.9932 223.987 82.8001 224.695 83.751 225.149C84.7018 225.603 85.7596 225.785 86.8076 225.676C87.858 225.557 88.8551 225.15 89.6881 224.5C90.5211 223.849 91.1574 222.98 91.5263 221.989L92.2345 220.539C92.883 218.832 93.4291 217.091 93.8728 215.334C95.3831 211.605 96.2023 207.603 98.2672 205.128C98.9421 204.494 99.7926 204.078 100.708 203.934L101.988 201.604C118.859 208.089 137.528 208.135 154.431 201.732L155.565 203.908C156.726 204.079 157.767 204.719 158.467 205.657C160.071 208.712 161.368 211.912 162.358 215.214C162.809 216.982 163.362 218.723 164.013 220.428L164.721 221.878C165.094 222.865 165.732 223.73 166.565 224.376C167.398 225.023 168.394 225.426 169.443 225.542C170.491 225.658 171.551 225.481 172.505 225.032C173.46 224.583 174.271 223.878 174.85 222.996C175.423 222.109 175.739 221.081 175.763 220.025C175.787 218.969 175.518 217.927 174.986 217.015L174.244 215.479C173.314 213.911 172.294 212.398 171.189 210.948C169.227 208.115 167.537 205.094 166.069 201.929C165.932 201.35 165.913 200.749 166.013 200.163C166.113 199.577 166.329 199.016 166.65 198.515C166.286 197.771 165.969 197.005 165.702 196.22C181.232 186.962 192.837 172.328 198.324 155.092L200.747 155.518C201.617 154.725 202.761 154.307 203.93 154.341C207.317 154.989 210.636 156.047 213.845 157.242C215.509 158.01 217.215 158.658 218.947 159.205C219.357 159.316 219.954 159.409 220.415 159.52H220.526C221.533 159.846 222.611 159.885 223.639 159.634C224.667 159.383 225.605 158.851 226.349 158.099C227.093 157.346 227.614 156.401 227.853 155.37C228.091 154.339 228.039 153.262 227.702 152.259C227.357 151.257 226.741 150.37 225.921 149.698C225.101 149.026 224.111 148.595 223.06 148.453L221.405 148.061C219.594 147.814 217.771 147.671 215.944 147.634C212.497 147.412 209.084 146.849 205.756 145.953C204.732 145.381 203.878 144.528 203.298 143.496L200.994 142.813C203.451 124.894 199.242 106.697 189.168 91.6755L191.182 89.8154C191.096 88.6464 191.48 87.4859 192.24 86.5899C194.859 84.3373 197.701 82.3491 200.687 80.6511C202.309 79.8233 203.881 78.9031 205.397 77.8949L206.643 76.8881C207.56 76.3188 208.298 75.5014 208.77 74.5305C209.242 73.5596 209.429 72.4749 209.311 71.4019C209.192 70.3289 208.772 69.3114 208.099 68.4672C207.426 67.623 206.528 66.9866 205.508 66.6316C204.49 66.277 203.391 66.2178 202.34 66.4609C201.29 66.704 200.329 67.2394 199.569 68.0054L198.307 69.0122C196.989 70.2625 195.744 71.5873 194.578 72.98C192.325 75.5569 189.833 77.9035 187.128 80.0026C186.037 80.447 184.843 80.577 183.681 80.378L181.522 81.9139C169.064 68.8587 152.28 60.7524 134.293 59.1312C134.293 58.2779 134.182 56.998 134.165 56.5969C133.201 55.9314 132.527 54.916 132.305 53.764C132.186 50.3181 132.404 46.8688 132.953 43.4649C133.32 41.673 133.576 39.8811 133.738 38.0636V36.357C133.909 33.0804 131.434 30.2731 128.149 30.0427L128.073 30ZM120.956 74.0808L119.25 103.886H119.122C119.036 105.729 117.953 107.299 116.289 108.187C114.625 109.074 112.654 108.81 111.169 107.726L86.7223 90.4041C94.5034 82.7615 104.265 77.4447 114.906 75.0535C116.903 74.6269 118.917 74.3026 120.939 74.0808H120.956ZM135.189 74.0808C148.031 75.6764 159.985 81.4446 169.235 90.498L145.019 107.709C143.526 108.903 141.478 109.142 139.745 108.323C138.013 107.504 136.904 105.763 136.878 103.852L135.189 74.0808ZM77.8481 101.616L100.204 121.566V121.694C101.595 122.906 102.201 124.792 101.791 126.592C101.382 128.392 99.9994 129.817 98.2331 130.304V130.389L69.5456 138.64C68.1261 125.716 71.0502 112.686 77.8566 101.608L77.8481 101.616ZM178.135 101.616C184.927 112.666 187.931 125.628 186.685 138.538L157.955 130.261V130.15C156.163 129.664 154.797 128.239 154.396 126.438C153.995 124.638 154.593 122.769 155.984 121.541L178.169 101.685L178.135 101.616ZM123.49 123.119H132.638L138.227 130.218L136.196 139.093L127.979 143.043L119.744 139.093L117.807 130.218L123.49 123.119ZM152.792 147.335C153.176 147.293 153.646 147.293 153.944 147.335L183.528 152.327C179.261 164.614 170.839 175.11 159.849 182.132L148.415 154.452C148.1 153.709 147.969 152.902 148.032 152.098C148.094 151.294 148.349 150.517 148.775 149.832C149.201 149.147 149.785 148.574 150.478 148.162C151.171 147.75 151.953 147.51 152.758 147.463L152.792 147.335ZM103.105 147.463C104.778 147.489 106.322 148.351 107.235 149.75C108.148 151.15 108.293 152.907 107.636 154.443V154.554L96.2706 182.013C85.3912 175.042 77.1313 164.674 72.7369 152.515L102.064 147.54C102.389 147.506 102.721 147.506 103.054 147.54L103.105 147.463ZM127.885 159.409C128.817 159.38 129.739 159.61 130.548 160.074C131.357 160.538 132.022 161.218 132.467 162.037H132.578L147.033 188.122L141.256 189.829C130.624 192.261 119.523 191.689 109.189 188.174L123.695 162.089C124.574 160.553 126.195 159.614 127.962 159.571L127.885 159.409Z"/></svg>
+        <text x="714" y="500.5" class="t">K8s</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.70s" fill="freeze"/>
+        <rect x="754" y="482" width="89" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="3.2s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="761" y="487" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#F4F2ED" rx="60"/><g clip-path="url(#l16_clip0_137_139)"><path fill="#D33833" fill-rule="evenodd" d="M198.402 124.423C198.402 164.029 167.012 196.137 128.29 196.137C89.5687 196.137 58.1785 164.029 58.1785 124.423C58.1785 84.8157 89.5687 52.7075 128.29 52.7075C167.012 52.7075 198.402 84.8157 198.402 124.423Z" clip-rule="evenodd"/><path fill="#EF3D3A" d="M61.0356 142.184C61.0356 142.184 55.96 67.3982 124.871 65.2612L120.063 57.2484L82.6703 69.8021L71.9863 82.0881L62.6382 99.9839L57.2959 120.817L58.8985 134.706"/><path fill="#231F20" d="M80.2695 75.5008C67.9682 88.0873 60.356 105.466 60.356 124.691C60.356 143.912 67.9682 161.292 80.2695 173.877C92.5767 186.461 109.538 194.226 128.289 194.226C147.041 194.226 164.003 186.461 176.309 173.877C188.61 161.292 196.224 143.912 196.224 124.691C196.224 105.466 188.61 88.0873 176.309 75.5008C164.003 62.9191 147.041 55.1538 128.289 55.1522C109.538 55.1538 92.5767 62.9191 80.2695 75.5008ZM77.1557 176.921C64.0823 163.551 56 145.073 56 124.691C56 104.305 64.0823 85.8293 77.1557 72.4583C90.226 59.0849 108.319 50.7957 128.289 50.7981C148.26 50.7957 166.354 59.0849 179.422 72.4583C192.497 85.8293 200.58 104.307 200.579 124.691C200.58 145.073 192.497 163.551 179.422 176.921C166.354 190.293 148.26 198.582 128.289 198.582C108.319 198.582 90.226 190.293 77.1557 176.921"/><path fill="#F0D6B7" fill-rule="evenodd" d="M157.804 124.821L147.119 126.423L132.696 128.026L123.347 128.292L114.267 128.026L107.322 125.889L101.178 119.212L96.3707 105.59L95.3024 102.651L88.8922 100.515L85.1528 94.3718L82.4819 85.5577L85.4204 77.8117L92.3643 75.4079L97.9733 78.0793L100.645 83.9551L103.85 83.4207L104.918 82.0858L103.85 75.9423L103.582 68.1963L105.185 57.5128L105.122 51.4103L109.993 43.6242L118.54 37.4808L133.497 31.0705L150.057 33.4744L164.48 43.891L171.158 54.5745L175.431 62.3205L176.499 81.5513L173.294 98.1114L167.418 112.801L161.809 120.547" clip-rule="evenodd"/><path fill="#335061" fill-rule="evenodd" d="M148.722 171.027L110.527 172.63V179.04L113.732 201.476L112.13 203.346L85.4206 194.264L83.5504 191.059L80.8796 160.878L74.7373 142.716L73.4014 138.442L94.7684 123.752L101.446 121.081L107.322 128.292L112.397 132.833L118.273 134.703L120.944 135.504L124.149 149.393L126.553 152.331L132.696 150.194L128.422 158.474L151.66 169.425L148.722 171.027" clip-rule="evenodd"/><path fill="#6D6B6D" fill-rule="evenodd" d="M85.4205 77.8117L92.3644 75.4078L97.9734 78.0793L100.645 83.9551L103.85 83.4206L104.651 80.2155L103.049 74.0729L104.651 59.3822L103.315 51.3693L108.123 45.7604L118.54 37.4807L115.602 33.4743L100.911 40.6858L94.7682 45.4935L91.2961 52.9719L85.9541 60.1834L84.3516 68.7307L85.4205 77.8117Z" clip-rule="evenodd"/><path fill="#DCD9D8" fill-rule="evenodd" d="M96.3709 52.7051C96.3709 52.7051 100.377 42.8229 116.403 38.0152C132.429 33.2075 117.204 34.5424 117.204 34.5424L99.8437 41.2203L93.1658 47.8974L90.2283 53.2396L96.3709 52.7051Z" clip-rule="evenodd"/><path fill="#DCD9D8" fill-rule="evenodd" d="M88.358 75.9422C88.358 75.9422 82.749 57.2451 104.117 54.5745L103.315 51.3693L88.6256 54.8421L84.3516 68.7307L85.4205 77.8116L88.358 75.9422Z" clip-rule="evenodd"/><path fill="#F7E4CD" fill-rule="evenodd" d="M96.905 100.782L100.402 97.3934C100.402 97.3934 101.981 97.5769 102.247 99.4463C102.514 101.317 103.315 118.143 114.8 127.225C115.848 128.054 106.254 125.889 106.254 125.889L97.7063 112.534" clip-rule="evenodd"/><path fill="#F7E4CD" fill-rule="evenodd" d="M146.052 95.7075C146.052 95.7075 146.675 87.6114 148.855 88.234C151.035 88.8566 151.035 91.0368 151.035 91.0368C151.035 91.0368 145.74 94.4623 146.052 95.7075" clip-rule="evenodd"/><path fill="#F7E4CD" d="M168.22 66.0601C168.22 66.0601 163.817 66.9895 163.412 70.8678C163.006 74.7468 168.22 71.669 169.021 71.4022"/><path fill="#F7E4CD" d="M135.901 66.3277C135.901 66.3277 130.025 67.129 130.025 70.8678C130.025 74.6073 136.703 74.3405 138.572 72.738"/><path fill="#F7E4CD" fill-rule="evenodd" d="M99.5759 83.6883C99.5759 83.6883 89.4259 77.5448 88.358 83.4215C87.2897 89.2973 84.8852 93.5713 89.9605 99.7139L86.4884 98.6458L83.2833 90.3662L82.2153 82.3533L88.358 75.9423L95.3025 76.4767L99.3089 79.6819L99.5759 83.6883Z" clip-rule="evenodd"/><path fill="#F7E4CD" fill-rule="evenodd" d="M104.384 66.8614C104.384 66.8614 108.924 43.3574 131.895 38.8165C150.806 35.0785 160.74 39.6178 164.48 43.891C164.48 43.891 147.653 23.8598 131.627 30.0024C115.602 36.1458 103.85 47.3638 104.117 54.5745C104.572 66.8566 104.384 66.8614 104.384 66.8614Z" clip-rule="evenodd"/><path fill="#F7E4CD" fill-rule="evenodd" d="M166.35 46.5617C166.35 46.5617 158.605 46.2949 158.337 53.2396C158.337 53.2396 158.337 54.3077 158.871 55.3758C158.871 55.3758 165.015 48.4311 168.754 52.1707" clip-rule="evenodd"/><path fill="#F7E4CD" fill-rule="evenodd" d="M132.433 56.0994C132.433 56.0994 131.1 45.4399 122.012 51.637C116.136 55.6434 116.671 61.2524 117.738 62.3205C118.807 63.3894 118.516 65.5409 119.33 64.0641C120.142 62.5873 119.875 57.7796 122.813 56.4447C125.751 55.109 130.568 53.617 132.433 56.0994Z" clip-rule="evenodd"/><path fill="#49728B" fill-rule="evenodd" d="M107.322 128.292L82.2155 139.51C82.2155 139.51 92.6321 180.91 87.2898 193.731L83.5504 192.396L83.2834 176.637L76.3398 146.723L73.4014 138.442L99.576 120.815L107.322 128.292Z" clip-rule="evenodd"/><path fill="#49728B" fill-rule="evenodd" d="M109.903 151.191L113.465 155.537V171.562H109.191C109.191 171.562 108.658 160.345 108.658 159.009C108.658 157.673 109.191 152.865 109.191 152.865" clip-rule="evenodd"/><path fill="#49728B" fill-rule="evenodd" d="M109.993 173.966L97.9734 174.5L101.446 176.904L109.993 178.239" clip-rule="evenodd"/><path fill="#335061" fill-rule="evenodd" d="M151.126 171.295L161.008 171.028L163.412 195.601L153.262 196.936L151.126 171.295" clip-rule="evenodd"/><path fill="#335061" fill-rule="evenodd" d="M153.796 171.295L168.754 170.494C168.754 170.494 174.897 155.002 174.897 154.201C174.897 153.4 180.239 131.765 180.239 131.765L168.219 119.212L165.816 117.075L159.405 123.486V148.325L153.796 171.295" clip-rule="evenodd"/><path fill="#49728B" fill-rule="evenodd" d="M160.473 169.425L151.126 171.295L152.461 178.774C155.933 180.377 161.809 176.103 161.809 176.103" clip-rule="evenodd"/><path fill="#49728B" fill-rule="evenodd" d="M160.741 122.684L179.438 136.573L179.972 130.163L165.816 117.075L160.741 122.684Z" clip-rule="evenodd"/><path fill="#fff" fill-rule="evenodd" d="M119.262 223.915L113.732 201.476L110.982 184.919L110.527 172.63L135.555 171.297L151.126 171.295L149.71 199.342L152.114 220.977L151.847 224.983L131.548 226.586L119.262 223.915" clip-rule="evenodd"/><path fill="#DCD9D8" fill-rule="evenodd" d="M147.653 171.028C147.653 171.028 146.318 198.806 150.325 218.57C150.325 218.57 142.312 223.646 130.559 224.981L152.995 224.179L155.666 222.577L152.461 178.774L151.66 169.425" clip-rule="evenodd"/><path fill="#fff" fill-rule="evenodd" d="M163.867 193.466L174.284 190.528L194.048 189.46L196.986 180.379L191.644 164.62L185.502 163.819L176.954 166.49L168.754 170.494L164.401 169.695L161.008 171.028" clip-rule="evenodd"/><path fill="#DCD9D8" fill-rule="evenodd" d="M163.679 188.122C163.679 188.122 170.623 184.917 171.692 185.184L168.754 170.494L172.226 169.159C172.226 169.159 174.63 183.047 174.63 184.65C174.63 184.65 189.587 185.451 190.922 185.451C190.922 185.451 194.127 179.308 193.326 172.897L196.264 181.445L196.531 186.252L192.258 192.663L187.45 193.731L179.438 193.464L176.767 189.992L167.418 191.327L164.48 192.396" clip-rule="evenodd"/><path fill="#fff" d="M153.183 169.161L147.307 154.204L141.164 145.389C141.164 145.389 142.499 141.65 144.369 141.65C146.239 141.65 150.512 141.65 150.512 141.65L156.388 143.787L155.854 153.669L153.183 169.161Z"/><path fill="#DCD9D8" fill-rule="evenodd" d="M154.331 164.083C154.331 164.083 146.852 149.661 146.852 147.524C146.852 147.524 148.187 144.319 150.057 145.12C151.927 145.921 155.934 148.058 155.934 148.058V142.983L146.852 141.113L140.709 141.914L151.126 166.487L153.262 166.755" clip-rule="evenodd"/><path fill="#fff" d="M121.666 128.83L114.267 128.026L107.322 125.889V128.292L110.715 132.034L121.399 136.842"/><path fill="#DCD9D8" fill-rule="evenodd" d="M109.727 129.631C109.727 129.631 118.007 133.103 120.678 132.302L120.944 135.504L113.466 133.905L108.925 130.7L109.727 129.631Z" clip-rule="evenodd"/><path fill="#D33833" fill-rule="evenodd" d="M163.838 142.559C159.306 142.426 155.211 141.888 151.627 140.877C151.87 139.407 151.414 137.965 151.78 136.906C152.78 136.187 154.454 136.198 155.965 136.029C154.659 135.387 152.824 135.133 151.316 135.504C151.281 134.484 150.824 133.852 150.546 133.054C153.094 132.144 159.11 126.182 162.493 128.156C164.106 129.095 164.791 134.459 164.916 137.067C165.02 139.231 164.719 141.413 163.838 142.559Z" clip-rule="evenodd"/><path stroke="#D33833" stroke-width="2.5" d="M163.838 142.559C159.306 142.426 155.211 141.888 151.627 140.877C151.87 139.407 151.414 137.965 151.78 136.906C152.78 136.187 154.454 136.198 155.965 136.029C154.659 135.387 152.824 135.133 151.316 135.504C151.281 134.484 150.824 133.852 150.546 133.054C153.094 132.144 159.11 126.182 162.493 128.156C164.106 129.095 164.791 134.459 164.916 137.067C165.02 139.231 164.719 141.413 163.838 142.559Z"/><path fill="#D33833" fill-rule="evenodd" d="M142.166 135.151C142.154 135.494 142.139 135.839 142.126 136.185C140.711 137.115 138.426 137.103 136.873 137.885C139.163 137.985 140.965 138.536 142.524 139.313C142.49 140.177 142.457 141.04 142.423 141.904C139.829 143.679 137.46 146.324 134.406 147.989C132.962 148.776 127.895 150.803 126.359 150.445C125.489 150.243 125.411 149.164 125.064 148.148C124.323 145.97 122.619 142.505 122.47 139.228C122.281 135.088 121.863 128.151 126.324 129.003C129.923 129.69 134.109 131.348 136.895 132.87C138.598 133.801 139.583 134.952 142.166 135.151" clip-rule="evenodd"/><path stroke="#D33833" stroke-width="2.5" d="M142.166 135.151C142.154 135.494 142.139 135.839 142.126 136.185C140.711 137.115 138.426 137.103 136.873 137.885C139.163 137.985 140.965 138.536 142.524 139.313C142.49 140.177 142.457 141.04 142.423 141.904C139.829 143.679 137.46 146.324 134.406 147.989C132.962 148.776 127.895 150.803 126.359 150.445C125.489 150.243 125.411 149.164 125.064 148.148C124.323 145.97 122.619 142.505 122.47 139.228C122.281 135.088 121.863 128.151 126.324 129.003C129.923 129.69 134.109 131.348 136.895 132.87C138.598 133.801 139.583 134.952 142.166 135.151V135.151Z"/><path fill="#D33833" fill-rule="evenodd" d="M144.742 140.09C144.346 137.835 143.889 137.192 144.066 135.224C150.079 131.215 151.208 142.111 144.742 140.09Z" clip-rule="evenodd"/><path stroke="#D33833" stroke-width="2.5" d="M144.742 140.09C144.346 137.835 143.889 137.192 144.066 135.224C150.079 131.215 151.208 142.111 144.742 140.09Z"/><path fill="#EF3D3A" fill-rule="evenodd" d="M153.45 141.917C153.45 141.917 151.579 139.246 152.915 138.445C154.251 137.643 155.587 138.446 156.388 137.11C157.189 135.774 156.388 134.973 156.655 133.37C156.921 131.768 158.258 131.5 159.593 131.233C160.928 130.966 164.668 130.432 165.202 131.768L163.599 126.96L160.394 125.892L150.244 131.768L149.71 134.706V140.582" clip-rule="evenodd"/><path fill="#EF3D3A" fill-rule="evenodd" d="M125.405 150.732C125.084 146.563 124.745 142.401 124.367 138.236C123.801 132.018 125.86 133.103 131.25 133.103C132.073 133.103 136.319 134.085 136.623 134.706C138.079 137.681 134.187 137.02 138.301 139.264C141.773 141.157 147.908 138.114 146.505 133.905C145.72 132.969 142.414 133.613 141.228 132.998C139.142 131.917 137.055 130.835 134.969 129.753C132.314 128.376 126.178 126.368 123.348 128.292C116.176 133.17 123.8 145.357 126.359 150.445" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M132.433 56.0993C125.153 54.4038 121.536 59.1458 119.329 64.0641C117.359 63.5865 118.143 60.907 118.641 59.5417C119.944 55.9583 125.195 51.1883 129.486 51.8349C131.332 52.113 133.831 53.8013 132.433 56.0993" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M167.903 64.3894C168.018 64.3942 168.134 64.3982 168.248 64.403C169.894 67.8205 171.317 71.4407 173.393 74.4575C172.002 77.6955 162.865 80.5609 163.006 74.7468C164.982 73.883 168.394 74.5705 170.145 73.4672C169.132 70.6875 167.671 68.3213 167.903 64.3894" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M136.16 64.4783C137.721 67.3397 138.229 70.3461 140.448 72.5088C141.447 73.4823 143.39 74.669 142.427 77.3766C142.202 78.0152 140.557 79.4391 139.607 79.7187C136.139 80.7428 128.056 79.9302 130.793 75.6057C133.662 75.7395 137.518 77.4687 139.662 75.3862C138.015 72.754 135.08 67.5464 136.16 64.4783" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M166.601 93.5601C161.378 96.915 155.555 100.563 146.997 99.7171C145.168 98.1274 144.471 94.5897 146.248 92.2532C147.172 93.8429 146.591 96.7668 149.168 97.2067C154.024 98.0377 159.676 94.2364 163.168 92.9078C165.334 89.2564 162.982 87.9134 161.031 85.5633C157.036 80.7484 151.678 74.7804 151.873 67.5721C153.487 66.4014 153.627 69.359 153.858 69.8974C155.944 74.7788 161.193 81.0216 165.024 85.1995C165.965 86.2284 167.514 87.2155 167.686 87.8958C168.183 89.8742 166.393 92.2444 166.601 93.5601" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M97.7481 90.028C96.1111 89.0937 95.7214 84.9784 93.7995 84.8614C91.053 84.6947 91.5538 90.2003 91.5648 93.4199C89.6742 91.7035 89.3418 86.4191 90.7306 83.7051C89.1478 82.9279 88.441 84.5625 87.563 85.1386C88.6914 76.9415 99.5541 81.3365 97.7481 90.028Z" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M169.926 96.9735C167.495 101.601 164.056 106.697 156.922 106.845C156.777 105.351 156.666 103.077 156.93 102.177C162.384 101.653 165.751 98.8774 169.926 96.9735Z" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M135.749 99.9736C140.299 102.366 148.661 102.623 154.845 102.442C155.177 103.797 155.169 105.471 155.182 107.123C147.232 107.52 137.833 105.553 135.749 99.9736Z" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M134.884 104.435C138.031 112.335 148.845 111.425 157.964 111.208C157.563 112.233 156.692 113.445 155.611 113.883C152.688 115.072 144.628 115.974 140.571 113.82C137.999 112.452 136.345 109.361 134.936 107.55C134.255 106.675 130.865 104.44 134.884 104.435" clip-rule="evenodd"/><path fill="#81B0C4" fill-rule="evenodd" d="M166.221 148.011C162.529 154.335 158.996 160.83 154.615 166.408C156.452 161.008 157.238 151.97 157.515 145.08C161.357 143.282 164.648 145.485 166.221 148.011Z" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M186.09 170.74C181.956 171.567 179.051 175.585 175.019 175.327C177.235 172.203 181.119 170.885 186.09 170.74Z" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M187.913 177.209C184.544 177.565 180.586 178.111 177.169 177.829C178.787 175.358 185.02 176.211 187.913 177.209Z" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M189.081 182.787C185.294 182.869 180.587 182.793 176.988 182.491C179.117 180.204 186.625 181.643 189.081 182.787Z" clip-rule="evenodd"/><path fill="#DCD9D8" fill-rule="evenodd" d="M159.096 198.05C159.639 202.806 161.525 207.625 161.288 212.833C159.195 213.539 157.992 214.157 155.187 214.153C154.989 209.727 154.397 202.96 154.574 198.74C155.953 198.832 157.988 197.755 159.096 198.05Z" clip-rule="evenodd"/><path fill="#F0D6B7" fill-rule="evenodd" d="M152.991 127.961C151.09 129.202 149.47 130.752 147.644 132.077C143.595 132.277 141.385 131.796 138.409 129.471C138.458 129.284 138.757 129.368 138.768 129.139C143.103 131.071 148.614 128.352 152.991 127.961" clip-rule="evenodd"/><path fill="#81B0C4" fill-rule="evenodd" d="M130.234 157.51C131.425 152.349 136.092 149.676 140.33 146.834C144.704 152.386 147.365 159.525 150.294 166.414C143.373 164.328 136.3 160.942 130.234 157.51Z" clip-rule="evenodd"/><path fill="#231F20" fill-rule="evenodd" d="M154.574 198.74C154.397 202.96 154.989 209.727 155.187 214.153C157.992 214.157 159.195 213.539 161.288 212.833C161.525 207.625 159.639 202.806 159.096 198.05C157.988 197.755 155.953 198.832 154.574 198.74V198.74ZM110.892 174.743C112.742 191.749 115.422 206.044 120.336 221.103C131.242 224.414 144.39 224.703 154.03 221.715C152.26 213.215 153.034 202.868 151.999 193.798C151.219 186.981 151.617 180.122 150.548 173.167C138.867 170.737 122.356 172.599 110.892 174.743V174.743ZM153.31 173.273C153.211 180.577 153.637 187.781 154.195 195.094C156.999 194.673 158.902 194.392 161.508 193.821C160.662 186.781 160.766 178.859 159.042 172.631C157.05 172.65 155.296 172.608 153.31 173.273V173.273ZM167.537 172.096C166.206 171.791 164.656 172.084 163.385 172.109C163.982 178.063 165.433 184.632 165.943 190.882C167.944 190.944 169.013 190 170.659 189.683C170.747 184.197 170.179 176.639 167.537 172.096V172.096ZM189.078 191.778C193.249 190.765 195.872 185.657 194.705 180.411C193.922 176.885 192.528 170.247 191.036 167.991C189.933 166.323 186.944 164.139 184.557 165.667C180.674 168.154 173.833 168.876 171.002 171.885C172.421 176.613 172.862 183.107 173.448 189.097C178.299 189.399 184.268 187.762 188.302 189.499C185.485 190.412 181.831 190.419 179.397 191.749C181.386 192.709 186.042 192.515 189.078 191.778V191.778ZM150.294 166.414C147.365 159.525 144.704 152.386 140.33 146.834C136.092 149.676 131.425 152.349 130.234 157.51C136.3 160.942 143.373 164.328 150.294 166.414ZM157.515 145.08C157.238 151.97 156.452 161.008 154.615 166.408C158.996 160.83 162.529 154.335 166.221 148.011C164.647 145.485 161.357 143.282 157.515 145.08V145.08ZM149.329 142.171C147.67 141.993 146.261 144.079 144.103 143.177C143.609 143.724 143.159 144.316 142.655 144.849C147.421 150.593 149.587 158.742 153.268 165.492C155.244 159.008 155.016 151.904 155.451 144.828C152.737 145 151.231 142.373 149.329 142.171ZM144.066 135.224C143.889 137.191 144.346 137.835 144.742 140.09C151.208 142.111 150.079 131.215 144.066 135.224ZM136.895 132.87C134.109 131.348 129.923 129.69 126.324 129.003C121.863 128.15 122.281 135.088 122.47 139.228C122.619 142.505 124.323 145.97 125.064 148.148C125.411 149.164 125.489 150.243 126.358 150.445C127.895 150.803 132.962 148.776 134.406 147.989C137.46 146.324 139.829 143.679 142.423 141.904C142.457 141.04 142.49 140.177 142.524 139.313C140.965 138.536 139.163 137.985 136.873 137.885C138.426 137.103 140.711 137.115 142.126 136.185C142.139 135.839 142.154 135.494 142.166 135.151C139.582 134.952 138.598 133.801 136.895 132.87V132.87ZM110.281 128.036C107.969 130.384 116.767 133.584 119.569 133.756C119.553 132.271 120.415 130.87 120.242 129.804C116.915 129.22 112.542 129.606 110.281 128.036V128.036ZM138.768 129.139C138.757 129.368 138.458 129.284 138.409 129.471C141.385 131.796 143.594 132.277 147.644 132.077C149.47 130.752 151.09 129.202 152.991 127.961C148.614 128.352 143.103 131.071 138.768 129.139V129.139ZM164.916 137.067C164.791 134.459 164.106 129.095 162.494 128.156C159.11 126.181 153.094 132.144 150.546 133.054C150.824 133.852 151.281 134.484 151.316 135.504C152.824 135.133 154.659 135.387 155.965 136.029C154.454 136.198 152.78 136.187 151.78 136.906C151.414 137.965 151.87 139.407 151.627 140.877C155.211 141.888 159.306 142.426 163.838 142.559C164.719 141.413 165.02 139.231 164.916 137.067V137.067ZM106.388 130.307C105.662 129.789 100.75 123.397 100.077 123.663C91.1875 127.168 82.8757 133.23 75.4482 138.963C82.5299 154.159 85.3885 172.776 85.8937 190.719C94.006 194.514 101.131 199.983 112.14 200.554C110.866 191.542 109.703 183.501 108.98 175.015C106.214 173.849 102.246 175.068 99.6573 174.654C99.6353 171.534 103.61 173.288 103.942 171.19C104.191 169.603 101.754 169.483 102.548 166.985C104.571 167.72 105.634 169.345 107.792 169.955C109.764 165.641 107.765 158.008 108.049 154.402C108.103 153.725 108.387 150.652 109.903 151.191C111.246 151.668 109.827 159.365 109.974 162.778C110.108 165.922 109.594 168.965 110.867 170.938C121.505 169.49 132.314 168.555 143.824 168.239C141.292 167.152 138.284 166.124 134.986 164.265C133.198 163.257 127.562 161.16 127.046 159.462C126.223 156.756 129.206 155.315 129.716 152.995C124.347 155.924 123.299 150.188 122.029 146.125C120.878 142.445 120.223 139.696 119.941 137.573C115.315 135.368 110.37 133.135 106.388 130.307V130.307ZM160.218 124.436C167.624 120.845 168.959 137.858 166.056 143.339C166.505 144.974 168.048 145.599 168.678 147.069C164.545 154.473 159.954 161.384 155.737 168.7C158.874 166.748 163.355 168.351 167.046 166.889C168.396 166.356 169.373 163.267 170.394 160.796C173.204 153.997 176.155 145.425 177.467 138.937C177.764 137.459 178.571 134.238 178.39 132.922C178.067 130.566 174.871 128.82 173.245 127.363C170.25 124.672 168.364 122.304 165.239 119.788C163.973 121.659 161.254 122.915 160.218 124.436V124.436ZM89.4503 58.7564C85.9212 62.6394 86.6599 69.9151 87.0872 75.0913C93.4661 71.0785 101.933 75.4086 101.853 82.234C104.898 82.153 102.991 78.4303 102.44 76.032C100.639 68.1987 105.473 59.6883 102.659 52.5248C97.1955 52.9391 92.707 55.1707 89.4503 58.7564V58.7564ZM114.702 36.2195C106.712 38.484 96.4731 44.2893 93.1901 51.4663C95.7322 51.0969 97.4969 49.8149 100.005 49.6562C100.952 49.5945 102.194 50.0537 103.283 49.7828C105.454 49.2444 107.286 44.3774 108.924 42.5665C110.52 40.7981 112.439 40.0425 113.752 38.4303C114.595 38.0232 115.843 38.0513 115.89 36.7844C115.525 36.3934 115.14 36.0953 114.702 36.2195V36.2195ZM156.291 38.3493C147.998 33.6707 133.962 30.1514 125.141 34.5489C118.024 38.0977 108.402 43.9695 105.122 51.4102C108.187 58.5905 104.215 65.1699 103.961 72.4599C103.826 76.3389 105.787 79.7252 105.938 83.9479C104.889 85.6779 101.685 85.891 99.4679 85.7724C98.7214 82.0368 97.4146 77.8381 93.5679 77.4167C88.1248 76.8213 84.1449 81.3261 83.8977 86.0336C83.605 91.5697 88.1498 100.745 94.5913 100.108C97.0797 99.8622 97.691 97.3678 100.402 97.3934C101.872 100.325 98.1355 101.246 97.7511 103.343C97.651 103.885 98.061 106.002 98.2994 106.994C99.4695 111.829 102.078 118.085 104.645 121.765C107.903 126.433 114.305 127.137 121.192 127.595C122.422 124.945 126.953 125.163 129.906 125.856C126.367 124.454 123.078 121.057 120.351 118.05C117.22 114.599 114.048 110.898 113.887 106.389C119.805 114.599 124.694 121.768 135.455 125.38C143.598 128.111 153.107 124.128 159.364 119.735C161.96 117.909 163.51 115.011 165.355 112.359C172.26 102.427 175.481 88.2508 174.773 74.5104C174.481 68.8437 174.494 63.1963 172.593 59.3838C170.606 55.3974 163.885 51.8309 159.95 55.4367C159.221 51.5601 163.222 49.1627 167.921 50.5577C164.57 46.2332 161.054 41.0368 156.291 38.3493V38.3493ZM171.74 166.208C178.22 162.986 190.328 157.537 194.39 166.22C195.889 169.42 197.648 174.83 198.425 178.134C199.522 182.795 197.235 192.591 192.445 194.156C188.213 195.537 183.276 195.453 178.179 194.429C177.578 193.93 176.91 193.059 176.443 192.152C172.804 192.011 169.396 192.348 166.521 193.844C166.793 196.535 164.973 196.967 163.266 197.522C162.001 202.538 165.797 209.09 164.889 213.664C164.24 216.923 160.231 217.427 157.284 218.037C157.187 219.848 157.413 221.36 157.614 222.892C156.94 225.375 153.917 226.788 151.054 227.135C141.631 228.268 127.325 228.777 118.262 225.518C115.733 219.314 113.741 211.769 111.634 204.686C102.795 205.63 95.6461 200.872 88.9066 197.755C86.5732 196.673 83.3453 196.077 82.4736 194.22C81.6284 192.421 81.9743 188.975 81.7646 185.72C81.2309 177.405 80.774 169.385 78.5782 160.871C77.5923 157.051 75.8739 153.679 74.6751 149.998C73.5671 146.587 71.6312 142.37 71.1263 138.968C70.3776 133.925 75.1258 133.645 78.1619 131.46C82.8554 128.081 86.5394 126.212 91.6225 123.163C93.128 122.26 97.6682 119.974 98.1846 118.921C99.2112 116.833 96.4224 113.89 95.6768 112.254C94.4974 109.667 93.8824 107.469 93.7134 104.916C89.4494 104.242 86.217 101.704 84.2645 98.8429C81.0347 94.1074 78.7948 85.3461 81.5893 78.6819C81.8084 78.157 82.9014 77.125 83.0626 76.3189C83.3806 74.7316 82.4641 72.621 82.4071 70.9327C82.1135 62.2708 83.8727 54.8077 89.7038 52.1955C92.0711 42.7652 100.544 39.6298 108.526 34.9431C111.51 33.1915 114.799 32.0721 118.196 30.8221C130.382 26.3373 149.079 27.1819 159.193 34.8309C163.481 38.0745 170.336 44.9231 172.788 49.8814C179.264 62.9719 178.804 84.8493 174.275 100.773C173.666 102.911 172.783 106.054 171.55 108.622C170.69 110.415 168.018 114.003 168.342 115.587C168.676 117.224 174.435 121.596 175.67 122.787C177.893 124.932 182.118 127.779 182.46 130.486C182.828 133.366 181.191 137.307 180.361 140.087C177.589 149.363 174.884 157.938 171.74 166.208" clip-rule="evenodd"/><path fill="#F7E4CD" fill-rule="evenodd" d="M128.509 101.994C128.86 101.526 130.793 100.816 133.497 102.118C133.497 102.118 130.292 102.652 130.559 107.996L129.223 107.728C129.223 107.728 127.843 102.883 128.509 101.994" clip-rule="evenodd"/><path fill="#1D1919" fill-rule="evenodd" d="M151.927 147.925C151.927 148.736 151.269 149.393 150.458 149.393C149.647 149.393 148.989 148.736 148.989 147.925C148.989 147.114 149.647 146.455 150.458 146.455C151.269 146.455 151.927 147.114 151.927 147.925Z" clip-rule="evenodd"/><path fill="#1D1919" fill-rule="evenodd" d="M153.396 154.736C153.396 155.547 152.738 156.204 151.926 156.204C151.115 156.204 150.458 155.547 150.458 154.736C150.458 153.925 151.115 153.266 151.926 153.266C152.738 153.266 153.396 153.925 153.396 154.736Z" clip-rule="evenodd"/></g><defs><clipPath id="l16_clip0_137_139"><rect width="144.872" height="200" fill="#fff" transform="translate(56 28)"/></clipPath></defs></svg>
+        <text x="785" y="500.5" class="t">Jenkins</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.75s" fill="freeze"/>
+        <rect x="851" y="482" width="96" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="3.4s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="858" y="487" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#F4F2ED" rx="60"/><g clip-path="url(#l17_clip0_7_155)"><path fill="#000" d="M171.474 169.034C172.62 159.493 172.276 158.101 179.377 159.641L181.184 159.802C186.648 160.048 193.791 158.923 198.059 156.976C207.095 152.785 212.452 145.782 203.544 147.624C183.223 151.815 181.747 144.931 181.747 144.931C203.213 113.08 212.192 72.65 204.437 62.757C183.315 35.757 146.745 48.5258 146.134 48.8633L145.937 48.8984C141.929 48.0547 137.499 47.5625 132.366 47.4922C123.17 47.3516 116.195 49.9039 110.893 53.9188C110.893 53.9188 45.6641 27.0453 48.6945 87.718C49.3414 100.627 67.1867 185.452 88.4914 159.788C96.2891 150.409 103.813 142.484 103.813 142.484C107.539 144.966 112.018 146.232 116.708 145.775L117.073 145.466C116.965 146.681 117.015 147.905 117.221 149.108C111.737 155.239 113.354 156.315 102.385 158.572C91.2899 160.857 97.8149 164.928 102.062 165.997C107.223 167.291 119.162 169.119 127.234 157.827L126.91 159.113C129.062 160.836 128.914 171.488 129.23 179.096C129.547 186.704 130.046 193.813 131.6 197.996C133.154 202.18 134.975 212.973 149.389 209.949C161.434 207.369 170.645 203.649 171.488 169.098"/><path stroke="#000" stroke-width="15.11" d="M171.474 169.034C172.62 159.493 172.276 158.101 179.377 159.641L181.184 159.802C186.648 160.048 193.791 158.923 198.059 156.976C207.095 152.785 212.452 145.782 203.544 147.624C183.223 151.815 181.747 144.931 181.747 144.931C203.213 113.08 212.192 72.65 204.437 62.757C183.315 35.757 146.745 48.5258 146.134 48.8633L145.937 48.8984C141.929 48.0547 137.499 47.5625 132.366 47.4922C123.17 47.3516 116.195 49.9039 110.893 53.9188C110.893 53.9188 45.6641 27.0453 48.6945 87.718C49.3414 100.627 67.1867 185.452 88.4914 159.788C96.2891 150.409 103.813 142.484 103.813 142.484C107.539 144.966 112.018 146.232 116.708 145.775L117.073 145.466C116.965 146.681 117.015 147.905 117.221 149.108C111.737 155.239 113.354 156.315 102.385 158.572C91.2899 160.857 97.8149 164.928 102.062 165.997C107.223 167.291 119.162 169.119 127.234 157.827L126.91 159.113C129.062 160.836 128.914 171.488 129.23 179.096C129.547 186.704 130.046 193.813 131.6 197.996C133.154 202.18 134.975 212.973 149.389 209.949C161.434 207.369 170.645 203.649 171.488 169.098"/><path fill="#336791" d="M203.48 147.688C183.16 151.878 181.684 144.995 181.684 144.995C203.15 113.143 212.129 72.7134 204.38 62.8204C183.259 35.8204 146.689 48.5962 146.077 48.9266L145.88 48.9618C141.414 48.0656 136.873 47.5924 132.317 47.5485C123.12 47.4079 116.145 49.9602 110.844 53.9751C110.844 53.9751 45.6078 27.1016 48.6453 87.7743C49.2922 100.684 67.1375 185.509 88.4422 159.845C96.2891 150.409 103.813 142.484 103.813 142.484C107.539 144.966 112.018 146.232 116.708 145.775L117.073 145.466C116.966 146.681 117.016 147.905 117.221 149.108C111.737 155.239 113.354 156.315 102.385 158.572C91.2899 160.857 97.8149 164.928 102.062 165.997C107.223 167.291 119.162 169.119 127.234 157.827L126.91 159.113C129.062 160.836 130.566 170.314 130.313 178.906C130.06 187.499 129.891 193.391 131.579 198.003C133.266 202.616 134.954 212.98 149.368 209.956C161.413 207.376 167.649 200.675 168.528 189.524C169.147 181.592 170.539 182.759 170.638 175.672L171.763 172.311C173.049 161.553 171.973 158.087 179.391 159.704L181.198 159.866C186.662 160.112 193.813 158.987 198.003 157.039C207.038 152.849 212.396 145.845 203.488 147.688H203.48Z"/><path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.034" d="M146.07 48.5961C143.82 49.2993 182.38 34.4985 204.303 62.504C212.038 72.3969 203.073 112.827 181.606 144.678M128.098 153.784C127.536 173.795 128.239 193.946 130.194 198.784C132.148 203.621 136.346 213.198 150.767 210.118C162.812 207.538 167.199 202.538 169.098 191.506L173.548 156.231L128.098 153.784ZM110.816 53.4688C110.816 53.4688 45.5375 26.7782 48.575 87.4508C49.2219 100.36 67.0672 185.185 88.3719 159.521C96.1484 150.148 103.18 142.815 103.18 142.815L110.816 53.4688Z"/><path stroke="#fff" stroke-linecap="round" stroke-linejoin="bevel" stroke-width="5.034" d="M181.613 144.664C181.613 144.664 183.02 151.555 203.41 147.35C212.319 145.508 206.954 152.511 197.926 156.702C190.515 160.147 173.893 161.026 173.619 156.28C172.916 144.01 182.366 147.737 181.684 144.664C181.065 141.894 176.832 139.18 174.048 132.402C171.608 126.495 140.579 81.1438 182.654 87.8727C184.201 87.5563 171.685 47.7946 132.31 47.2181C92.9352 46.6415 94.1797 95.6282 94.1797 95.6282"/><path stroke="#fff" stroke-linejoin="round" stroke-width="5.034" d="M117.08 148.869C111.596 155 113.213 156.076 102.245 158.333C91.1492 160.618 97.6742 164.689 101.921 165.758C107.082 167.052 119.021 168.88 127.093 157.58C129.554 154.135 127.079 148.651 123.704 147.259C122.073 146.584 119.893 145.74 117.095 148.876L117.08 148.869Z"/><path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.034" d="M116.722 148.763C116.159 145.156 117.903 140.874 119.766 135.854C122.565 128.331 129.02 120.807 123.859 96.9219C120.012 79.1329 94.1867 93.2165 94.1867 95.6282C94.1867 98.0399 95.3539 107.863 93.7648 119.288C91.6766 134.209 103.257 146.823 116.588 145.536"/><path fill="#fff" stroke="#fff" stroke-width="1.68" d="M110.577 95.2695C110.457 96.0922 112.088 98.293 114.205 98.5883C116.321 98.8836 118.128 97.168 118.248 96.3383C118.367 95.5086 116.736 94.6086 114.62 94.3133C112.503 94.018 110.682 94.4539 110.577 95.2695V95.2695Z"/><path fill="#fff" stroke="#fff" stroke-width=".837" d="M175.011 93.5891C175.123 94.4118 173.499 96.6125 171.383 96.9079C169.266 97.2032 167.445 95.4875 167.34 94.6579C167.234 93.8282 168.852 92.9282 170.968 92.6329C173.084 92.3375 174.905 92.7735 175.011 93.5891Z"/><path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.034" d="M182.577 87.8867C182.928 94.3555 181.184 98.75 180.959 105.634C180.636 115.632 185.727 127.079 178.055 138.54"/></g><defs><clipPath id="l17_clip0_7_155"><rect width="180" height="180" fill="#fff" transform="translate(38 38)"/></clipPath></defs></svg>
+        <text x="882" y="500.5" class="t">Postgres</text>
+      </g>
+      <g class="pill" opacity="0">
+        <animate attributeName="opacity" to="1" dur=".35s" begin="4.80s" fill="freeze"/>
+        <rect x="955" y="482" width="89" height="28" rx="14" class="pillR pillFill" stroke="url(#accent)" stroke-width="1" stroke-opacity=".55">
+          <animate attributeName="stroke-opacity" values=".45;.9;.45" dur="3s" begin="3.6s" repeatCount="indefinite"/>
+        </rect>
+        <svg x="962" y="487" width="18" height="18" viewBox="0 0 256 256"><rect width="256" height="256" fill="#023430" rx="60"/><path fill="#10AA50" d="M171.173 107.591C160.636 61.1097 138.676 48.7357 133.074 39.9886C130.764 36.1353 128.717 32.1299 126.949 28C126.653 32.1292 126.109 34.7307 122.599 37.862C115.552 44.1454 85.6217 68.5354 83.1028 121.348C80.756 170.59 119.303 200.953 124.395 204.092C128.311 206.019 133.08 204.133 135.407 202.364C153.988 189.612 179.376 155.614 171.193 107.591"/><path fill="#B8C4C2" d="M128.545 177.871C127.575 190.059 126.88 197.141 124.416 204.106C124.416 204.106 126.033 215.709 127.169 228H131.188C132.147 219.345 133.61 210.753 135.572 202.268C130.369 199.708 128.745 188.566 128.545 177.871Z"/><path fill="#12924F" d="M135.565 202.275C130.307 199.846 128.786 188.469 128.552 177.871C129.852 160.388 130.231 142.849 129.688 125.326C129.412 116.132 129.818 40.1676 127.423 29.0461C129.062 32.8129 130.949 36.4662 133.074 39.9818C138.676 48.7358 160.643 61.1097 171.173 107.591C179.376 155.532 154.126 189.44 135.565 202.275Z"/></svg>
+        <text x="986" y="500.5" class="t">MongoDB</text>
+      </g>
+    </g>
+
+    <!-- socials -->
+    <g opacity="0">
+      <animate attributeName="opacity" to="1" dur=".6s" begin="5.2s" fill="freeze"/>
+      <animateTransform attributeName="transform" type="translate" from="0 6" to="0 0" dur=".6s" begin="5.2s" fill="freeze"/>
+
+      <!-- GitHub -->
+      <g transform="translate(508,524) scale(1.35)" filter="url(#softGlow)">
+        <path class="t" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z">
+          <animate attributeName="opacity" values=".75;1;.75" dur="3.5s" repeatCount="indefinite"/>
+        </path>
+      </g>
+      <!-- LinkedIn -->
+      <g transform="translate(556,524)" filter="url(#softGlow)">
+        <rect width="21" height="21" rx="5" fill="none" stroke="url(#accent)" stroke-width="1.5">
+          <animate attributeName="stroke-opacity" values=".7;1;.7" dur="3.5s" begin=".5s" repeatCount="indefinite"/>
+        </rect>
+        <text x="10.5" y="15" font-size="11" font-weight="700" text-anchor="middle" class="t">in</text>
+      </g>
+      <!-- X / Twitter -->
+      <g transform="translate(604,524)" filter="url(#softGlow)">
+        <rect width="21" height="21" rx="5" fill="none" stroke="url(#accent)" stroke-width="1.5">
+          <animate attributeName="stroke-opacity" values=".7;1;.7" dur="3.5s" begin="1s" repeatCount="indefinite"/>
+        </rect>
+        <path d="M6 6 L15 15 M15 6 L6 15" stroke="var(--text)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+      </g>
+      <!-- Portfolio / globe -->
+      <g transform="translate(662.5,534.5)" filter="url(#softGlow)">
+        <circle r="10" fill="none" stroke="url(#accent)" stroke-width="1.5">
+          <animate attributeName="stroke-opacity" values=".7;1;.7" dur="3.5s" begin="1.5s" repeatCount="indefinite"/>
+        </circle>
+        <ellipse rx="4.2" ry="10" fill="none" stroke="var(--text)" stroke-width="1.2" opacity=".9"/>
+        <line x1="-10" y1="0" x2="10" y2="0" stroke="var(--text)" stroke-width="1.2" opacity=".9"/>
+      </g>
+
+      <text x="1116" y="542" font-size="11.5" class="m" text-anchor="end">github.com/SeanChenR</text>
+    </g>
+  </g>
+
+  <!-- ======================= GLASS + BORDER ======================= -->
+  <g clip-path="url(#canvas)">
+    <g transform="rotate(18 590 305)">
+      <rect x="-500" y="-300" width="190" height="1200" fill="url(#reflG)">
+        <animateTransform attributeName="transform" type="translate" values="0 0;1900 0;1900 0" keyTimes="0;.55;1" dur="12s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+  </g>
+  <rect x="0.75" y="0.75" width="1178.5" height="608.5" rx="23.5" fill="none" class="bd" stroke-width="1.5"/>
+  <rect x="0.75" y="0.75" width="1178.5" height="608.5" rx="23.5" fill="none" stroke="url(#shimmer)" stroke-width="1.5"/>
+</svg>
